@@ -1,0 +1,16 @@
+{
+  "name": "js-to-mermaid-flowchart",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/crubier/js-to-mermaid-flowchart.git",
+  "author": "Vincent Lecrubier <vincent.lecrubier@sterblue.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.2.3",
+    "jest": "^23.6.0",
+    "lodash": "^4.17.11"
+  }
+}
