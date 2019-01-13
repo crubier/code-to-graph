@@ -76,11 +76,54 @@ function tramsformStatementToGraph(statement) {
     case "Program": {
       return transformGeneralAstToGraph(statement.body);
     }
+    case "ClassDeclaration": {
+      return {
+        nodes: [],
+        edges: [],
+        entryNodes: [],
+        exitNodes: [],
+        breakNodes: [],
+        subGraphs: [
+          {
+            name: `class ${
+              fp.isNil(statement.id)
+                ? makeIdFromAstNode(statement)
+                : generate(statement.id).code
+            }`,
+            graph: transformGeneralAstToGraph(statement.body)
+          }
+        ]
+      };
+    }
+    case "ClassBody": {
+      return transformGeneralAstToGraph(statement.body);
+    }
     case "FunctionExpression": {
       return transformGeneralAstToGraph(statement.body);
     }
     case "ArrowFunctionExpression": {
       return transformGeneralAstToGraph(statement.body);
+    }
+    case "ClassMethod": {
+      console.log("ClassMethod");
+      console.log(statement);
+      return {
+        nodes: [],
+        edges: [],
+        entryNodes: [],
+        exitNodes: [],
+        breakNodes: [],
+        subGraphs: [
+          {
+            name: `method ${
+              fp.isNil(statement.key)
+                ? makeIdFromAstNode(statement)
+                : generate(statement.key).code
+            }`,
+            graph: transformGeneralAstToGraph(statement.body)
+          }
+        ]
+      };
     }
     case "FunctionDeclaration": {
       // console.log("FunctionDeclaration");
@@ -100,11 +143,11 @@ function tramsformStatementToGraph(statement) {
           }
         ]
       };
-      return;
     }
     case "BlockStatement": {
       return transformGeneralAstToGraph(statement.body);
     }
+
     case "VariableDeclarator": {
       // console.log("VariableDeclarator");
       const node = cleanGraphNode({
@@ -311,6 +354,51 @@ function tramsformStatementToGraph(statement) {
         entryNodes: [node],
         exitNodes: [],
         breakNodes: [node],
+        subGraphs: []
+      };
+    }
+    case "WhileStatement": {
+      const thisNode = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: `while ${generate(statement.test).code}`,
+        shape: "rhombus"
+      });
+      const {
+        nodes: bodyNodes,
+        edges: bodyEdges,
+        entryNodes: bodyEntryNodes,
+        exitNodes: bodyExitNodes,
+        breakNodes: bodyBreakNodes
+      } = transformGeneralAstToGraph(statement.body);
+
+      const thisEdges = [
+        ...fp.map(
+          node => ({
+            from: thisNode.id,
+            to: node.id,
+            name: "do",
+            style: "solid",
+            arrow: true
+          }),
+          bodyEntryNodes
+        ),
+        ...fp.map(
+          node => ({
+            from: node.id,
+            to: thisNode.id,
+            name: "loop",
+            style: "solid",
+            arrow: true
+          }),
+          bodyExitNodes
+        )
+      ];
+      return {
+        nodes: [thisNode, ...bodyNodes],
+        edges: [...thisEdges, ...bodyEdges],
+        entryNodes: [thisNode],
+        exitNodes: [...bodyBreakNodes, thisNode],
+        breakNodes: [],
         subGraphs: []
       };
     }
