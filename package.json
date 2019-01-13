@@ -1,6 +1,6 @@
 {
   "name": "code-to-graph",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "repository": "https://github.com/crubier/code-to-graph.git",
   "author": "Vincent Lecrubier <vincent.lecrubier@sterblue.com>",
