@@ -5,20 +5,19 @@ Transforms JS code into mermaid flowchart
 Turns this:
 
 ```javascript
-(x)=>{
-  const a=f(x);
-  if(x===0){
-    let a=null;
-    throw new Error("Nooes")
-  }else{
-    const c=8;
-    return 4
+x => {
+  const a = f(x);
+  if (x === 0) {
+    let a = null;
+    throw new Error("Nooes");
+  } else {
+    const c = 8;
+    return 4;
   }
-}
+};
 ```
 
 Into this:
-
 
 ```mermaid
 graph TD
@@ -36,3 +35,7 @@ graph TD
         statementfroml1c71tol1c81 --> statementfroml1c81tol1c89
         statementfroml1c6tol1c19 --> statementfroml1c19tol1c90
 ```
+
+Whichs renders into this:
+
+![Example mermaid diagram](./mermaid-diagram-example.svg)
