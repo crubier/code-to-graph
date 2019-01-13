@@ -39,3 +39,11 @@ graph TD
 Whichs renders into this:
 
 ![Example mermaid diagram](./mermaid-diagram-example.svg)
+
+# Usage
+
+Call the cli with a js file name, it prints out the Mermaid.js graph definition
+
+```bash
+code-to-graph example.js
+```
