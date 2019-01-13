@@ -1,15 +1,15 @@
 {
-  "name": "js-to-mermaid-flowchart",
+  "name": "code-to-graph",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/crubier/js-to-mermaid-flowchart.git",
+  "repository": "https://github.com/crubier/code-to-graph.git",
   "author": "Vincent Lecrubier <vincent.lecrubier@sterblue.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest"
   },
   "bin": {
-    "js-to-mermaid": "./cli.js"
+    "code-to-graph": "./cli.js"
   },
   "dependencies": {
     "@babel/generator": "^7.2.2",

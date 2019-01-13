@@ -1,6 +1,6 @@
-# js-to-mermaid-flowchart
+# code-to-graph
 
-Transforms JS code into mermaid flowchart
+Transforms code (JS) into graphs (graphviz, mermaid flowchart, ...)
 
 Turns this:
 
