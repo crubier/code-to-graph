@@ -18,15 +18,14 @@ function transformStatementToGraph(statement) {
             ...edges,
             ...currentEdges,
             fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
-              ? console.log("NOOO", nodes, currentNodes)
-              : (console.log("YEEE", nodes, currentNodes),
-                {
+              ? null
+              : {
                   from: fp.last(nodes).id,
                   to: fp.first(currentNodes).id,
                   name: "",
                   style: "solid",
                   arrow: true
-                })
+                }
           ])
         }),
         { nodes: [], edges: [] },
@@ -44,13 +43,25 @@ function transformStatementToGraph(statement) {
         edges: []
       };
     case "ReturnStatement":
-      // console.log(" generate(statement).code", generate(statement).code);
       return {
         nodes: [
           cleanGraphNode({
             id: makeIdFromAstNode(statement),
             name: generate(statement).code,
-            shape: "asymetric"
+            shape: "asymetric",
+            style: { fill: "#99FF99" }
+          })
+        ],
+        edges: []
+      };
+    case "ThrowStatement":
+      return {
+        nodes: [
+          cleanGraphNode({
+            id: makeIdFromAstNode(statement),
+            name: generate(statement).code,
+            shape: "asymetric",
+            style: { fill: "#FF9999" }
           })
         ],
         edges: []
@@ -96,15 +107,14 @@ function transformStatementToGraph(statement) {
   }
 }
 
-function cleanGraphNode({ id, name, shape }) {
+function cleanGraphNode({ name, ...rest }) {
   return {
-    id,
-    // name: fp.compose([
-    //   fp.replace(/(;)|(\n)|(\{)|(\})/g, ""),
-    //   fp.replace(/(===)|(==)/g, "=")
-    // ])(name),
-    name: `"${name}"`,
-    shape
+    ...rest,
+    name: `"${fp.compose([
+      // fp.replace(/(;)|(\n)|(\{)|(\})/g, ""),
+      // fp.replace(/(===)|(==)/g, "=")
+      fp.replace(/(\")/g, "'")
+    ])(name)}"`
   };
 }
 

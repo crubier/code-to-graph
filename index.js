@@ -19,20 +19,29 @@ function transformJsAstToGraph(ast) {
   }
 }
 
-function transformNodeToMermaidString({ id, name, shape = "square" }) {
+function transformNodeToMermaidString({ id, name, shape = "square", style }) {
+  const styleText = fp.isObject(style)
+    ? `\n  style ${id} ${fp.join(
+        ",",
+        fp.map(
+          ([key, value]) => `${fp.kebabCase(key)}:${value}`,
+          fp.toPairs(style)
+        )
+      )}`
+    : "";
   const text = fp.isString(name) ? name : id;
   switch (shape) {
     case "round":
-      return `  ${id}(${text})`;
+      return `  ${id}(${text})${styleText}`;
     case "circle":
-      return `  ${id}((${text}))`;
+      return `  ${id}((${text}))${styleText}`;
     case "asymetric":
-      return `  ${id}>${text}]`;
+      return `  ${id}>${text}]${styleText}`;
     case "rhombus":
-      return `  ${id}{${text}}`;
+      return `  ${id}{${text}}${styleText}`;
     case "square":
     default:
-      return `  ${id}[${text}]`;
+      return `  ${id}[${text}]${styleText}`;
   }
 }
 
