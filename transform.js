@@ -8,98 +8,181 @@ function makeIdFromAstNode(astNode) {
   }tol${astNode.loc.end.line}c${astNode.loc.end.column}`;
 }
 
+function transformStatementSequenceToGraph(statements) {
+  return fp.reduce(
+    (
+      { nodes, edges, entryNodes, exitNodes },
+      {
+        nodes: currentNodes,
+        edges: currentEdges,
+        entryNodes: currentEntryNodes,
+        exitNodes: currentExitNodes
+      }
+    ) => ({
+      nodes: [...nodes, ...currentNodes],
+      edges: fp.compact([
+        ...edges,
+        ...currentEdges,
+        fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
+          ? null
+          : {
+              from: fp.last(nodes).id,
+              to: fp.first(currentNodes).id,
+              name: "",
+              style: "solid",
+              arrow: true
+            }
+      ]),
+      entryNodes: fp.isEmpty(entryNodes) ? currentEntryNodes : entryNodes,
+      exitNodes: fp.isEmpty(currentExitNodes) ? exitNodes : currentExitNodes
+    }),
+    { nodes: [], edges: [], entryNodes: [], exitNodes: [] },
+    fp.map(transformStatementToGraph, statements)
+  );
+}
+
 function transformStatementToGraph(statement) {
   switch (statement.type) {
-    case "BlockStatement":
-      return fp.reduce(
-        ({ nodes, edges }, { nodes: currentNodes, edges: currentEdges }) => ({
-          nodes: [...nodes, ...currentNodes],
-          edges: fp.compact([
-            ...edges,
-            ...currentEdges,
-            fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
-              ? null
-              : {
-                  from: fp.last(nodes).id,
-                  to: fp.first(currentNodes).id,
-                  name: "",
-                  style: "solid",
-                  arrow: true
-                }
-          ])
-        }),
-        { nodes: [], edges: [] },
-        fp.map(transformStatementToGraph, statement.body)
-      );
-    case "VariableDeclaration":
+    case "BlockStatement": {
+      return transformStatementSequenceToGraph(statement.body);
+    }
+    case "VariableDeclaration": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "round"
+      });
       return {
-        nodes: [
-          cleanGraphNode({
-            id: makeIdFromAstNode(statement),
-            name: generate(statement).code,
-            shape: "round"
-          })
-        ],
-        edges: []
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: [node]
       };
-    case "ReturnStatement":
+    }
+    case "ReturnStatement": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "asymetric",
+        style: { fill: "#99FF99" }
+      });
       return {
-        nodes: [
-          cleanGraphNode({
-            id: makeIdFromAstNode(statement),
-            name: generate(statement).code,
-            shape: "asymetric",
-            style: { fill: "#99FF99" }
-          })
-        ],
-        edges: []
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: []
       };
-    case "ThrowStatement":
+    }
+    case "ThrowStatement": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "asymetric",
+        style: { fill: "#FF9999" }
+      });
+
       return {
-        nodes: [
-          cleanGraphNode({
-            id: makeIdFromAstNode(statement),
-            name: generate(statement).code,
-            shape: "asymetric",
-            style: { fill: "#FF9999" }
-          })
-        ],
-        edges: []
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: []
       };
-    case "IfStatement":
+    }
+    case "IfStatement": {
       const thisNode = cleanGraphNode({
         id: makeIdFromAstNode(statement),
-        name: generate(statement.test).code,
+        name: `if ${generate(statement.test).code}`,
         shape: "rhombus"
       });
       const {
         nodes: consequentNodes,
-        edges: consequentEdges
+        edges: consequentEdges,
+        entryNodes: consequentEntryNodes,
+        exitNodes: consequentExitNodes
       } = transformStatementToGraph(statement.consequent);
       const {
         nodes: alternateNodes,
-        edges: alternateEdges
+        edges: alternateEdges,
+        entryNodes: alternateEntryNodes,
+        exitNodes: alternateExitNodes
       } = transformStatementToGraph(statement.alternate);
+
       const thisEdges = [
-        {
-          from: thisNode.id,
-          to: fp.first(consequentNodes).id,
-          name: "true",
-          style: "solid",
-          arrow: true
-        },
-        {
-          from: thisNode.id,
-          to: fp.first(alternateNodes).id,
-          name: "false",
-          style: "solid",
-          arrow: true
-        }
+        ...fp.map(
+          node => ({
+            from: thisNode.id,
+            to: node.id,
+            name: "true",
+            style: "solid",
+            arrow: true
+          }),
+          consequentEntryNodes
+        ),
+        ...fp.map(
+          node => ({
+            from: thisNode.id,
+            to: node.id,
+            name: "false",
+            style: "solid",
+            arrow: true
+          }),
+          alternateEntryNodes
+        )
       ];
       return {
         nodes: [thisNode, ...consequentNodes, ...alternateNodes],
-        edges: [...thisEdges, ...consequentEdges, ...alternateEdges]
+        edges: [...thisEdges, ...consequentEdges, ...alternateEdges],
+        entryNodes: [thisNode],
+        exitNodes: [...consequentExitNodes, ...alternateExitNodes]
       };
+    }
+    case "SwitchStatement": {
+      const thisNode = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: `switch ${generate(statement.discriminant).code} `,
+        shape: "rhombus"
+      });
+
+      return fp.reduce(
+        ({ nodes, edges, entryNodes, exitNodes }, caseAstElement) => {
+          const {
+            nodes: caseNodes,
+            edges: caseEdges,
+            entryNodes: caseEntryNodes,
+            exitNodes: caseExitNodes
+          } = transformStatementSequenceToGraph(caseAstElement.consequent);
+          const caseEntryEdges = fp.map(
+            node => ({
+              from: thisNode.id,
+              to: node.id,
+              name: fp.isEmpty(caseAstElement.test)
+                ? "default"
+                : generate(caseAstElement.test).code,
+              style: "solid",
+              arrow: true
+            }),
+            caseEntryNodes
+          );
+          // console.log("caseNodes", caseNodes);
+          return {
+            nodes: [...nodes, ...caseNodes],
+            edges: fp.compact([...edges, ...caseEdges, ...caseEntryEdges]),
+            entryNodes: [...entryNodes],
+            exitNodes: [exitNodes, ...caseExitNodes]
+          };
+        },
+        { nodes: [thisNode], edges: [], entryNodes: [thisNode], exitNodes: [] },
+        statement.cases
+      );
+    }
+    case "EmptyStatement": {
+      return {
+        nodes: [],
+        edges: [],
+        entryNodes: [],
+        exitNodes: []
+      };
+    }
     default:
       throw new Error(
         `Statements of type ${statement.type} are not yet supported`

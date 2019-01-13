@@ -30,7 +30,7 @@ test("3", () => {
   );
   //   console.log(res);
   expect(res).toEqual(`graph TD
-  statementfroml1c6tol1c40{"x === 0"}
+  statementfroml1c6tol1c40{"if x === 0"}
   statementfroml1c16tol1c25>"return 5;"]
   style statementfroml1c16tol1c25 fill:#99FF99
   statementfroml1c31tol1c39>"return 4;"]
@@ -47,7 +47,7 @@ test("4", () => {
 
   expect(res).toEqual(`graph TD
   statementfroml1c6tol1c19("const a = f(x);")
-  statementfroml1c19tol1c63{"x === 0"}
+  statementfroml1c19tol1c63{"if x === 0"}
   statementfroml1c29tol1c38>"return 5;"]
   style statementfroml1c29tol1c38 fill:#99FF99
   statementfroml1c44tol1c54("const c = 8;")
@@ -67,7 +67,7 @@ test("5", () => {
 
   expect(res).toEqual(`graph TD
   statementfroml1c6tol1c19("const a = f(x);")
-  statementfroml1c19tol1c90{"x === 0"}
+  statementfroml1c19tol1c90{"if x === 0"}
   statementfroml1c29tol1c40("let a = null;")
   statementfroml1c41tol1c65>"throw new Error('Nooes');"]
   style statementfroml1c41tol1c65 fill:#FF9999
@@ -79,4 +79,25 @@ test("5", () => {
   statementfroml1c29tol1c40 --> statementfroml1c41tol1c65
   statementfroml1c71tol1c81 --> statementfroml1c81tol1c89
   statementfroml1c6tol1c19 --> statementfroml1c19tol1c90`);
+});
+
+test("6", () => {
+  const res = transformJsStringToMermaidString(
+    `(x)=>{switch(x){case 0: return 1;case 2:{const a=1;return 3;};default: return 4}}`
+  );
+  //   console.log(res);
+
+  expect(res).toEqual(`graph TD
+  statementfroml1c6tol1c80{"switch x "}
+  statementfroml1c24tol1c33>"return 1;"]
+  style statementfroml1c24tol1c33 fill:#99FF99
+  statementfroml1c41tol1c51("const a = 1;")
+  statementfroml1c51tol1c60>"return 3;"]
+  style statementfroml1c51tol1c60 fill:#99FF99
+  statementfroml1c71tol1c79>"return 4;"]
+  style statementfroml1c71tol1c79 fill:#99FF99
+  statementfroml1c6tol1c80 -- 0 --> statementfroml1c24tol1c33
+  statementfroml1c41tol1c51 --> statementfroml1c51tol1c60
+  statementfroml1c6tol1c80 -- 2 --> statementfroml1c41tol1c51
+  statementfroml1c6tol1c80 -- default --> statementfroml1c71tol1c79`);
 });
