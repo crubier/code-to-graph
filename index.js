@@ -5,7 +5,7 @@ const fp = require("lodash/fp");
 const { transformGeneralAstToGraph } = require("./transform.js");
 
 function transformJsStringToJsAst(string) {
-  return babelParser.parse(string);
+  return babelParser.parse(string, { sourceType: "module" });
 }
 
 function transformJsAstToGraph(ast) {

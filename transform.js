@@ -227,6 +227,28 @@ function tramsformStatementToGraph(statement) {
         };
       }
     }
+    case "ExportNamedDeclaration":
+      return transformGeneralAstToGraph(statement.declaration);
+    case "ExportDefaultDeclaration":
+      return transformGeneralAstToGraph(statement.declaration);
+    case "Identifier":
+      return {
+        nodes: [],
+        edges: [],
+        entryNodes: [],
+        exitNodes: [],
+        breakNodes: [],
+        subGraphs: []
+      };
+    case "ImportDeclaration":
+      return {
+        nodes: [],
+        edges: [],
+        entryNodes: [],
+        exitNodes: [],
+        breakNodes: [],
+        subGraphs: []
+      };
     case "EmptyStatement": {
       const node = cleanGraphNode({
         id: makeIdFromAstNode(statement),
@@ -309,7 +331,14 @@ function tramsformStatementToGraph(statement) {
         edges: alternateEdges,
         entryNodes: alternateEntryNodes,
         exitNodes: alternateExitNodes
-      } = transformGeneralAstToGraph(statement.alternate);
+      } = !fp.isNil(statement.alternate)
+        ? transformGeneralAstToGraph(statement.alternate)
+        : {
+            nodes: [],
+            edges: [],
+            entryNodes: [],
+            exitNodes: [thisNode]
+          };
 
       const thisEdges = [
         ...fp.map(
