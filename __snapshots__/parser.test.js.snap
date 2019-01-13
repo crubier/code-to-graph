@@ -1,0 +1,1743 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parser if else 1`] = `
+Node {
+  "comments": Array [],
+  "end": 48,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 48,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "alternate": Node {
+                "body": Array [
+                  Node {
+                    "argument": Node {
+                      "end": 46,
+                      "extra": Object {
+                        "raw": "1",
+                        "rawValue": 1,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 46,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 45,
+                          "line": 1,
+                        },
+                      },
+                      "start": 45,
+                      "type": "NumericLiteral",
+                      "value": 1,
+                    },
+                    "end": 46,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 46,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 38,
+                        "line": 1,
+                      },
+                    },
+                    "start": 38,
+                    "type": "ReturnStatement",
+                  },
+                ],
+                "directives": Array [],
+                "end": 47,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 47,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 37,
+                    "line": 1,
+                  },
+                },
+                "start": 37,
+                "type": "BlockStatement",
+              },
+              "consequent": Node {
+                "body": Array [
+                  Node {
+                    "argument": Node {
+                      "end": 32,
+                      "extra": Object {
+                        "raw": "0",
+                        "rawValue": 0,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 32,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 31,
+                          "line": 1,
+                        },
+                      },
+                      "start": 31,
+                      "type": "NumericLiteral",
+                      "value": 0,
+                    },
+                    "end": 32,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 32,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 24,
+                        "line": 1,
+                      },
+                    },
+                    "start": 24,
+                    "type": "ReturnStatement",
+                  },
+                ],
+                "directives": Array [],
+                "end": 33,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 33,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 23,
+                    "line": 1,
+                  },
+                },
+                "start": 23,
+                "type": "BlockStatement",
+              },
+              "end": 47,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 47,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 14,
+                  "line": 1,
+                },
+              },
+              "start": 14,
+              "test": Node {
+                "end": 22,
+                "left": Node {
+                  "end": 18,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 18,
+                      "line": 1,
+                    },
+                    "identifierName": "x",
+                    "start": Position {
+                      "column": 17,
+                      "line": 1,
+                    },
+                  },
+                  "name": "x",
+                  "start": 17,
+                  "type": "Identifier",
+                },
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 22,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 17,
+                    "line": 1,
+                  },
+                },
+                "operator": "===",
+                "right": Node {
+                  "end": 22,
+                  "extra": Object {
+                    "raw": "5",
+                    "rawValue": 5,
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 22,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 1,
+                    },
+                  },
+                  "start": 21,
+                  "type": "NumericLiteral",
+                  "value": 5,
+                },
+                "start": 17,
+                "type": "BinaryExpression",
+              },
+              "type": "IfStatement",
+            },
+          ],
+          "directives": Array [],
+          "end": 48,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 48,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 13,
+              "line": 1,
+            },
+          },
+          "start": 13,
+          "type": "BlockStatement",
+        },
+        "end": 48,
+        "generator": false,
+        "id": Node {
+          "end": 10,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 10,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 9,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 9,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 48,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 12,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 12,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 11,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 11,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 48,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 48,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser if else 2`] = `
+Node {
+  "comments": Array [],
+  "end": 73,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 73,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "alternate": Node {
+                "alternate": Node {
+                  "body": Array [
+                    Node {
+                      "argument": Node {
+                        "end": 71,
+                        "extra": Object {
+                          "raw": "2",
+                          "rawValue": 2,
+                        },
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 71,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 70,
+                            "line": 1,
+                          },
+                        },
+                        "start": 70,
+                        "type": "NumericLiteral",
+                        "value": 2,
+                      },
+                      "end": 71,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 71,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 63,
+                          "line": 1,
+                        },
+                      },
+                      "start": 63,
+                      "type": "ReturnStatement",
+                    },
+                  ],
+                  "directives": Array [],
+                  "end": 72,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 72,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 62,
+                      "line": 1,
+                    },
+                  },
+                  "start": 62,
+                  "type": "BlockStatement",
+                },
+                "consequent": Node {
+                  "body": Array [
+                    Node {
+                      "argument": Node {
+                        "end": 56,
+                        "extra": Object {
+                          "raw": "1",
+                          "rawValue": 1,
+                        },
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 56,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 55,
+                            "line": 1,
+                          },
+                        },
+                        "start": 55,
+                        "type": "NumericLiteral",
+                        "value": 1,
+                      },
+                      "end": 56,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 56,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 48,
+                          "line": 1,
+                        },
+                      },
+                      "start": 48,
+                      "type": "ReturnStatement",
+                    },
+                  ],
+                  "directives": Array [],
+                  "end": 57,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 57,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 47,
+                      "line": 1,
+                    },
+                  },
+                  "start": 47,
+                  "type": "BlockStatement",
+                },
+                "end": 72,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 72,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 38,
+                    "line": 1,
+                  },
+                },
+                "start": 38,
+                "test": Node {
+                  "end": 46,
+                  "left": Node {
+                    "end": 42,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 42,
+                        "line": 1,
+                      },
+                      "identifierName": "x",
+                      "start": Position {
+                        "column": 41,
+                        "line": 1,
+                      },
+                    },
+                    "name": "x",
+                    "start": 41,
+                    "type": "Identifier",
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 46,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 41,
+                      "line": 1,
+                    },
+                  },
+                  "operator": "===",
+                  "right": Node {
+                    "end": 46,
+                    "extra": Object {
+                      "raw": "6",
+                      "rawValue": 6,
+                    },
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 46,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 45,
+                        "line": 1,
+                      },
+                    },
+                    "start": 45,
+                    "type": "NumericLiteral",
+                    "value": 6,
+                  },
+                  "start": 41,
+                  "type": "BinaryExpression",
+                },
+                "type": "IfStatement",
+              },
+              "consequent": Node {
+                "body": Array [
+                  Node {
+                    "argument": Node {
+                      "end": 32,
+                      "extra": Object {
+                        "raw": "0",
+                        "rawValue": 0,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 32,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 31,
+                          "line": 1,
+                        },
+                      },
+                      "start": 31,
+                      "type": "NumericLiteral",
+                      "value": 0,
+                    },
+                    "end": 32,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 32,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 24,
+                        "line": 1,
+                      },
+                    },
+                    "start": 24,
+                    "type": "ReturnStatement",
+                  },
+                ],
+                "directives": Array [],
+                "end": 33,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 33,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 23,
+                    "line": 1,
+                  },
+                },
+                "start": 23,
+                "type": "BlockStatement",
+              },
+              "end": 72,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 72,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 14,
+                  "line": 1,
+                },
+              },
+              "start": 14,
+              "test": Node {
+                "end": 22,
+                "left": Node {
+                  "end": 18,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 18,
+                      "line": 1,
+                    },
+                    "identifierName": "x",
+                    "start": Position {
+                      "column": 17,
+                      "line": 1,
+                    },
+                  },
+                  "name": "x",
+                  "start": 17,
+                  "type": "Identifier",
+                },
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 22,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 17,
+                    "line": 1,
+                  },
+                },
+                "operator": "===",
+                "right": Node {
+                  "end": 22,
+                  "extra": Object {
+                    "raw": "5",
+                    "rawValue": 5,
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 22,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 1,
+                    },
+                  },
+                  "start": 21,
+                  "type": "NumericLiteral",
+                  "value": 5,
+                },
+                "start": 17,
+                "type": "BinaryExpression",
+              },
+              "type": "IfStatement",
+            },
+          ],
+          "directives": Array [],
+          "end": 73,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 73,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 13,
+              "line": 1,
+            },
+          },
+          "start": 13,
+          "type": "BlockStatement",
+        },
+        "end": 73,
+        "generator": false,
+        "id": Node {
+          "end": 10,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 10,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 9,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 9,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 73,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 12,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 12,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 11,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 11,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 73,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 73,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser return 1`] = `
+Node {
+  "comments": Array [],
+  "end": 24,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 24,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "argument": Node {
+                "end": 22,
+                "extra": Object {
+                  "raw": "5",
+                  "rawValue": 5,
+                },
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 22,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 21,
+                    "line": 1,
+                  },
+                },
+                "start": 21,
+                "type": "NumericLiteral",
+                "value": 5,
+              },
+              "end": 23,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 23,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 14,
+                  "line": 1,
+                },
+              },
+              "start": 14,
+              "type": "ReturnStatement",
+            },
+          ],
+          "directives": Array [],
+          "end": 24,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 24,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 13,
+              "line": 1,
+            },
+          },
+          "start": 13,
+          "type": "BlockStatement",
+        },
+        "end": 24,
+        "generator": false,
+        "id": Node {
+          "end": 10,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 10,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 9,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 9,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 24,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 12,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 12,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 11,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 11,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 24,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 24,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser return 2`] = `
+Node {
+  "comments": Array [],
+  "end": 27,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 27,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "declarations": Array [
+                Node {
+                  "end": 25,
+                  "id": Node {
+                    "end": 21,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 21,
+                        "line": 1,
+                      },
+                      "identifierName": "a",
+                      "start": Position {
+                        "column": 20,
+                        "line": 1,
+                      },
+                    },
+                    "name": "a",
+                    "start": 20,
+                    "type": "Identifier",
+                  },
+                  "init": Node {
+                    "end": 25,
+                    "extra": Object {
+                      "raw": "5",
+                      "rawValue": 5,
+                    },
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 25,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 24,
+                        "line": 1,
+                      },
+                    },
+                    "start": 24,
+                    "type": "NumericLiteral",
+                    "value": 5,
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 25,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 20,
+                      "line": 1,
+                    },
+                  },
+                  "start": 20,
+                  "type": "VariableDeclarator",
+                },
+              ],
+              "end": 26,
+              "kind": "const",
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 26,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 14,
+                  "line": 1,
+                },
+              },
+              "start": 14,
+              "type": "VariableDeclaration",
+            },
+          ],
+          "directives": Array [],
+          "end": 27,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 27,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 13,
+              "line": 1,
+            },
+          },
+          "start": 13,
+          "type": "BlockStatement",
+        },
+        "end": 27,
+        "generator": false,
+        "id": Node {
+          "end": 10,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 10,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 9,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 9,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 27,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 12,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 12,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 11,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 11,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 27,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 27,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser switch 1`] = `
+Node {
+  "comments": Array [],
+  "end": 67,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 67,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "cases": Array [
+                Node {
+                  "consequent": Array [
+                    Node {
+                      "argument": Node {
+                        "end": 39,
+                        "extra": Object {
+                          "raw": "2",
+                          "rawValue": 2,
+                        },
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 39,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 38,
+                            "line": 1,
+                          },
+                        },
+                        "start": 38,
+                        "type": "NumericLiteral",
+                        "value": 2,
+                      },
+                      "end": 40,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 40,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 31,
+                          "line": 1,
+                        },
+                      },
+                      "start": 31,
+                      "type": "ReturnStatement",
+                    },
+                  ],
+                  "end": 40,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 40,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 24,
+                      "line": 1,
+                    },
+                  },
+                  "start": 24,
+                  "test": Node {
+                    "end": 30,
+                    "extra": Object {
+                      "raw": "1",
+                      "rawValue": 1,
+                    },
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 30,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 29,
+                        "line": 1,
+                      },
+                    },
+                    "start": 29,
+                    "type": "NumericLiteral",
+                    "value": 1,
+                  },
+                  "type": "SwitchCase",
+                },
+                Node {
+                  "consequent": Array [
+                    Node {
+                      "end": 56,
+                      "label": null,
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 56,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 50,
+                          "line": 1,
+                        },
+                      },
+                      "start": 50,
+                      "type": "BreakStatement",
+                    },
+                  ],
+                  "end": 56,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 56,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 41,
+                      "line": 1,
+                    },
+                  },
+                  "start": 41,
+                  "test": null,
+                  "type": "SwitchCase",
+                },
+              ],
+              "discriminant": Node {
+                "end": 22,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 22,
+                    "line": 1,
+                  },
+                  "identifierName": "x",
+                  "start": Position {
+                    "column": 21,
+                    "line": 1,
+                  },
+                },
+                "name": "x",
+                "start": 21,
+                "type": "Identifier",
+              },
+              "end": 57,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 57,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 14,
+                  "line": 1,
+                },
+              },
+              "start": 14,
+              "type": "SwitchStatement",
+            },
+            Node {
+              "argument": Node {
+                "end": 65,
+                "extra": Object {
+                  "raw": "3",
+                  "rawValue": 3,
+                },
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 65,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 64,
+                    "line": 1,
+                  },
+                },
+                "start": 64,
+                "type": "NumericLiteral",
+                "value": 3,
+              },
+              "end": 66,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 66,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 57,
+                  "line": 1,
+                },
+              },
+              "start": 57,
+              "type": "ReturnStatement",
+            },
+          ],
+          "directives": Array [],
+          "end": 67,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 67,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 13,
+              "line": 1,
+            },
+          },
+          "start": 13,
+          "type": "BlockStatement",
+        },
+        "end": 67,
+        "generator": false,
+        "id": Node {
+          "end": 10,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 10,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 9,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 9,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 67,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 12,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 12,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 11,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 11,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 67,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 67,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser switch 2`] = `
+Node {
+  "comments": Array [],
+  "end": 81,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 81,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "end": 81,
+        "expression": Node {
+          "async": false,
+          "body": Node {
+            "body": Array [
+              Node {
+                "cases": Array [
+                  Node {
+                    "consequent": Array [
+                      Node {
+                        "argument": Node {
+                          "end": 32,
+                          "extra": Object {
+                            "raw": "1",
+                            "rawValue": 1,
+                          },
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 32,
+                              "line": 1,
+                            },
+                            "start": Position {
+                              "column": 31,
+                              "line": 1,
+                            },
+                          },
+                          "start": 31,
+                          "type": "NumericLiteral",
+                          "value": 1,
+                        },
+                        "end": 33,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 33,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 24,
+                            "line": 1,
+                          },
+                        },
+                        "start": 24,
+                        "type": "ReturnStatement",
+                      },
+                    ],
+                    "end": 33,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 33,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 16,
+                        "line": 1,
+                      },
+                    },
+                    "start": 16,
+                    "test": Node {
+                      "end": 22,
+                      "extra": Object {
+                        "raw": "0",
+                        "rawValue": 0,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 22,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 21,
+                          "line": 1,
+                        },
+                      },
+                      "start": 21,
+                      "type": "NumericLiteral",
+                      "value": 0,
+                    },
+                    "type": "SwitchCase",
+                  },
+                  Node {
+                    "consequent": Array [
+                      Node {
+                        "body": Array [
+                          Node {
+                            "declarations": Array [
+                              Node {
+                                "end": 50,
+                                "id": Node {
+                                  "end": 48,
+                                  "loc": SourceLocation {
+                                    "end": Position {
+                                      "column": 48,
+                                      "line": 1,
+                                    },
+                                    "identifierName": "a",
+                                    "start": Position {
+                                      "column": 47,
+                                      "line": 1,
+                                    },
+                                  },
+                                  "name": "a",
+                                  "start": 47,
+                                  "type": "Identifier",
+                                },
+                                "init": Node {
+                                  "end": 50,
+                                  "extra": Object {
+                                    "raw": "1",
+                                    "rawValue": 1,
+                                  },
+                                  "loc": SourceLocation {
+                                    "end": Position {
+                                      "column": 50,
+                                      "line": 1,
+                                    },
+                                    "start": Position {
+                                      "column": 49,
+                                      "line": 1,
+                                    },
+                                  },
+                                  "start": 49,
+                                  "type": "NumericLiteral",
+                                  "value": 1,
+                                },
+                                "loc": SourceLocation {
+                                  "end": Position {
+                                    "column": 50,
+                                    "line": 1,
+                                  },
+                                  "start": Position {
+                                    "column": 47,
+                                    "line": 1,
+                                  },
+                                },
+                                "start": 47,
+                                "type": "VariableDeclarator",
+                              },
+                            ],
+                            "end": 51,
+                            "kind": "const",
+                            "loc": SourceLocation {
+                              "end": Position {
+                                "column": 51,
+                                "line": 1,
+                              },
+                              "start": Position {
+                                "column": 41,
+                                "line": 1,
+                              },
+                            },
+                            "start": 41,
+                            "type": "VariableDeclaration",
+                          },
+                          Node {
+                            "argument": Node {
+                              "end": 59,
+                              "extra": Object {
+                                "raw": "3",
+                                "rawValue": 3,
+                              },
+                              "loc": SourceLocation {
+                                "end": Position {
+                                  "column": 59,
+                                  "line": 1,
+                                },
+                                "start": Position {
+                                  "column": 58,
+                                  "line": 1,
+                                },
+                              },
+                              "start": 58,
+                              "type": "NumericLiteral",
+                              "value": 3,
+                            },
+                            "end": 60,
+                            "loc": SourceLocation {
+                              "end": Position {
+                                "column": 60,
+                                "line": 1,
+                              },
+                              "start": Position {
+                                "column": 51,
+                                "line": 1,
+                              },
+                            },
+                            "start": 51,
+                            "type": "ReturnStatement",
+                          },
+                        ],
+                        "directives": Array [],
+                        "end": 61,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 61,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 40,
+                            "line": 1,
+                          },
+                        },
+                        "start": 40,
+                        "type": "BlockStatement",
+                      },
+                      Node {
+                        "end": 62,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 62,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 61,
+                            "line": 1,
+                          },
+                        },
+                        "start": 61,
+                        "type": "EmptyStatement",
+                      },
+                    ],
+                    "end": 62,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 62,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 33,
+                        "line": 1,
+                      },
+                    },
+                    "start": 33,
+                    "test": Node {
+                      "end": 39,
+                      "extra": Object {
+                        "raw": "2",
+                        "rawValue": 2,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 39,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 38,
+                          "line": 1,
+                        },
+                      },
+                      "start": 38,
+                      "type": "NumericLiteral",
+                      "value": 2,
+                    },
+                    "type": "SwitchCase",
+                  },
+                  Node {
+                    "consequent": Array [
+                      Node {
+                        "argument": Node {
+                          "end": 79,
+                          "extra": Object {
+                            "raw": "4",
+                            "rawValue": 4,
+                          },
+                          "loc": SourceLocation {
+                            "end": Position {
+                              "column": 79,
+                              "line": 1,
+                            },
+                            "start": Position {
+                              "column": 78,
+                              "line": 1,
+                            },
+                          },
+                          "start": 78,
+                          "type": "NumericLiteral",
+                          "value": 4,
+                        },
+                        "end": 79,
+                        "loc": SourceLocation {
+                          "end": Position {
+                            "column": 79,
+                            "line": 1,
+                          },
+                          "start": Position {
+                            "column": 71,
+                            "line": 1,
+                          },
+                        },
+                        "start": 71,
+                        "type": "ReturnStatement",
+                      },
+                    ],
+                    "end": 79,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 79,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 62,
+                        "line": 1,
+                      },
+                    },
+                    "start": 62,
+                    "test": null,
+                    "type": "SwitchCase",
+                  },
+                ],
+                "discriminant": Node {
+                  "end": 14,
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 14,
+                      "line": 1,
+                    },
+                    "identifierName": "x",
+                    "start": Position {
+                      "column": 13,
+                      "line": 1,
+                    },
+                  },
+                  "name": "x",
+                  "start": 13,
+                  "type": "Identifier",
+                },
+                "end": 80,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 80,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 6,
+                    "line": 1,
+                  },
+                },
+                "start": 6,
+                "type": "SwitchStatement",
+              },
+            ],
+            "directives": Array [],
+            "end": 81,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 81,
+                "line": 1,
+              },
+              "start": Position {
+                "column": 5,
+                "line": 1,
+              },
+            },
+            "start": 5,
+            "type": "BlockStatement",
+          },
+          "end": 81,
+          "generator": false,
+          "id": null,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 81,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 0,
+              "line": 1,
+            },
+          },
+          "params": Array [
+            Node {
+              "end": 2,
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 2,
+                  "line": 1,
+                },
+                "identifierName": "x",
+                "start": Position {
+                  "column": 1,
+                  "line": 1,
+                },
+              },
+              "name": "x",
+              "start": 1,
+              "type": "Identifier",
+            },
+          ],
+          "start": 0,
+          "type": "ArrowFunctionExpression",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 81,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "start": 0,
+        "type": "ExpressionStatement",
+      },
+    ],
+    "directives": Array [],
+    "end": 81,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 81,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;

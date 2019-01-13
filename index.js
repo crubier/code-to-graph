@@ -2,21 +2,22 @@ const babelParser = require("@babel/parser");
 
 const fp = require("lodash/fp");
 
-const { transformStatementToGraph } = require("./transform.js");
+const { transformGeneralAstToGraph } = require("./transform.js");
 
 function transformJsStringToJsAst(string) {
-  return babelParser.parseExpression(string);
+  return babelParser.parse(string);
 }
 
 function transformJsAstToGraph(ast) {
-  if (
-    ast.type === "FunctionExpression" ||
-    ast.type === "ArrowFunctionExpression"
-  ) {
-    return transformStatementToGraph(ast.body);
-  } else {
-    throw new Error(`Code must be a FunctionExpression, but is a ${ast.type}`);
-  }
+  //   if (
+  //     ast.type === "FunctionExpression" ||
+  //     ast.type === "ArrowFunctionExpression"
+  //   ) {
+  return transformGeneralAstToGraph(ast);
+  //   } else if (ast){}else{
+  //     console.log(JSON.stringify(ast, null, 2));
+  //     throw new Error(`Code must be a FunctionExpression, but is a ${ast.type}`);
+  //   }
 }
 
 function transformNodeToMermaidString({ id, name, shape = "square", style }) {
@@ -77,22 +78,48 @@ function transformEdgeToMermaidString({
   }
 }
 
-function transformGraphToMermaidString(
-  { nodes, edges },
-  { direction = "TD" } = {}
-) {
-  const graphMermaidStrign = `graph ${direction}`;
+function transformGraphFragmentToMermaidString({ nodes, edges, subGraphs }) {
   const nodesMermaidString = fp.join(
     "\n",
     fp.map(transformNodeToMermaidString, nodes)
   );
+  const subGraphMermaidString = fp.join(
+    "\n",
+    fp.map(({ name, graph }) => {
+      //   console.log("SUBGRAPH", name);
+      return (
+        `subgraph ${name}\n` +
+        transformGraphFragmentToMermaidString(graph) +
+        `\nend`
+      );
+    }, subGraphs)
+  );
+  //   console.log("subGraphMermaidString", subGraphMermaidString);
+
   const edgesMermaidString = fp.join(
     "\n",
     fp.map(transformEdgeToMermaidString, edges)
   );
+
   return (
-    graphMermaidStrign + "\n" + nodesMermaidString + "\n" + edgesMermaidString
+    nodesMermaidString +
+    (fp.isEmpty(subGraphs) ? "" : "\n" + subGraphMermaidString) +
+    "\n" +
+    edgesMermaidString
   );
+}
+
+function transformGraphToMermaidString(
+  { nodes, edges, subGraphs },
+  { direction = "TD" } = {}
+) {
+  const graphMermaidString = `graph ${direction}`;
+  const graphFragmentMermaidString = transformGraphFragmentToMermaidString({
+    nodes,
+    edges,
+    subGraphs
+  });
+  return graphMermaidString + "\n" + graphFragmentMermaidString;
 }
 
 function transformJsStringToMermaidString(string) {

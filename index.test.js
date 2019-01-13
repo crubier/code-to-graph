@@ -5,22 +5,29 @@ const {
 
 test("1", () => {
   const res = transformJsStringToMermaidString("function f(x){return 5;}");
-  //   console.log(res);
+  // console.log(res);
   expect(res).toEqual(
     `graph TD
+
+subgraph f
   statementfroml1c14tol1c23>"return 5;"]
   style statementfroml1c14tol1c23 fill:#99FF99
+
+end
 `
   );
 });
 
 test("2", () => {
   const res = transformJsStringToMermaidString("(x)=>{return 5;}");
-
-  //   console.log(res);
+  // console.log(res);
   expect(res).toEqual(`graph TD
+
+subgraph statementfroml1c0tol1c16
   statementfroml1c6tol1c15>"return 5;"]
   style statementfroml1c6tol1c15 fill:#99FF99
+
+end
 `);
 });
 
@@ -28,24 +35,30 @@ test("3", () => {
   const res = transformJsStringToMermaidString(
     "(x)=>{if(x===0){return 5;}else{return 4}}"
   );
-  //   console.log(res);
+  // console.log(res);
   expect(res).toEqual(`graph TD
+
+subgraph statementfroml1c0tol1c41
   statementfroml1c6tol1c40{"if x === 0"}
   statementfroml1c16tol1c25>"return 5;"]
   style statementfroml1c16tol1c25 fill:#99FF99
   statementfroml1c31tol1c39>"return 4;"]
   style statementfroml1c31tol1c39 fill:#99FF99
   statementfroml1c6tol1c40 -- true --> statementfroml1c16tol1c25
-  statementfroml1c6tol1c40 -- false --> statementfroml1c31tol1c39`);
+  statementfroml1c6tol1c40 -- false --> statementfroml1c31tol1c39
+end
+`);
 });
 
 test("4", () => {
   const res = transformJsStringToMermaidString(
     "(x)=>{const a=f(x);if(x===0){return 5;}else{const c=8;return 4}}"
   );
-  //   console.log(res);
+  // console.log(res);
 
   expect(res).toEqual(`graph TD
+
+subgraph statementfroml1c0tol1c64
   statementfroml1c6tol1c19("const a = f(x);")
   statementfroml1c19tol1c63{"if x === 0"}
   statementfroml1c29tol1c38>"return 5;"]
@@ -56,16 +69,68 @@ test("4", () => {
   statementfroml1c19tol1c63 -- true --> statementfroml1c29tol1c38
   statementfroml1c19tol1c63 -- false --> statementfroml1c44tol1c54
   statementfroml1c44tol1c54 --> statementfroml1c54tol1c62
-  statementfroml1c6tol1c19 --> statementfroml1c19tol1c63`);
+  statementfroml1c6tol1c19 --> statementfroml1c19tol1c63
+end
+`);
 });
 
 test("5", () => {
   const res = transformJsStringToMermaidString(
-    `(x)=>{const a=f(x);if(x===0){let a=null; throw new Error("Nooes")}else{const c=8;return 4}}`
+    "const g = (x)=>{const a=f(x);if(x===0){return 5;}else{const c=8;return 4}}"
   );
-  //   console.log(res);
+  // console.log(res);
 
   expect(res).toEqual(`graph TD
+
+subgraph g
+  statementfroml1c16tol1c29("const a = f(x);")
+  statementfroml1c29tol1c73{"if x === 0"}
+  statementfroml1c39tol1c48>"return 5;"]
+  style statementfroml1c39tol1c48 fill:#99FF99
+  statementfroml1c54tol1c64("const c = 8;")
+  statementfroml1c64tol1c72>"return 4;"]
+  style statementfroml1c64tol1c72 fill:#99FF99
+  statementfroml1c29tol1c73 -- true --> statementfroml1c39tol1c48
+  statementfroml1c29tol1c73 -- false --> statementfroml1c54tol1c64
+  statementfroml1c54tol1c64 --> statementfroml1c64tol1c72
+  statementfroml1c16tol1c29 --> statementfroml1c29tol1c73
+end
+`);
+});
+
+test("6", () => {
+  const res = transformJsStringToMermaidString(
+    "const g = function k(x){const a=w(x);if(x===0){return 6;}else{const c=8;return 4}}"
+  );
+  // console.log(res);
+
+  expect(res).toEqual(`graph TD
+
+subgraph g
+  statementfroml1c24tol1c37("const a = w(x);")
+  statementfroml1c37tol1c81{"if x === 0"}
+  statementfroml1c47tol1c56>"return 6;"]
+  style statementfroml1c47tol1c56 fill:#99FF99
+  statementfroml1c62tol1c72("const c = 8;")
+  statementfroml1c72tol1c80>"return 4;"]
+  style statementfroml1c72tol1c80 fill:#99FF99
+  statementfroml1c37tol1c81 -- true --> statementfroml1c47tol1c56
+  statementfroml1c37tol1c81 -- false --> statementfroml1c62tol1c72
+  statementfroml1c62tol1c72 --> statementfroml1c72tol1c80
+  statementfroml1c24tol1c37 --> statementfroml1c37tol1c81
+end
+`);
+});
+
+test("7", () => {
+  const res = transformJsStringToMermaidString(
+    `(x)=>{const a=f(x);if(x===0){let a=null; throw new Error("Nooes")}else{const c=8;return 4}}`
+  );
+  // console.log(res);
+
+  expect(res).toEqual(`graph TD
+
+subgraph statementfroml1c0tol1c91
   statementfroml1c6tol1c19("const a = f(x);")
   statementfroml1c19tol1c90{"if x === 0"}
   statementfroml1c29tol1c40("let a = null;")
@@ -78,35 +143,41 @@ test("5", () => {
   statementfroml1c19tol1c90 -- false --> statementfroml1c71tol1c81
   statementfroml1c29tol1c40 --> statementfroml1c41tol1c65
   statementfroml1c71tol1c81 --> statementfroml1c81tol1c89
-  statementfroml1c6tol1c19 --> statementfroml1c19tol1c90`);
+  statementfroml1c6tol1c19 --> statementfroml1c19tol1c90
+end
+`);
 });
 
-test("6", () => {
+test("8", () => {
   const res = transformJsStringToMermaidString(
-    `(x)=>{switch(x){case 0: return 1;case 2:{const a=1;return 3;};default: return 4}}`
+    `const q = (x)=>{switch(x){case 0: return 1;case 2:{const a=1;return 3;};default: return 4}}`
   );
-  //   console.log(res);
+  // console.log(res);
 
   expect(res).toEqual(`graph TD
-  statementfroml1c6tol1c80{"switch x "}
-  statementfroml1c24tol1c33>"return 1;"]
-  style statementfroml1c24tol1c33 fill:#99FF99
-  statementfroml1c41tol1c51("const a = 1;")
-  statementfroml1c51tol1c60>"return 3;"]
-  style statementfroml1c51tol1c60 fill:#99FF99
-  statementfroml1c61tol1c62("Empty statement at line 1 column 61")
-  statementfroml1c71tol1c79>"return 4;"]
-  style statementfroml1c71tol1c79 fill:#99FF99
-  statementfroml1c6tol1c80 -- 0 --> statementfroml1c24tol1c33
-  statementfroml1c41tol1c51 --> statementfroml1c51tol1c60
-  statementfroml1c6tol1c80 -- 2 --> statementfroml1c41tol1c51
-  statementfroml1c6tol1c80 -- default --> statementfroml1c71tol1c79
-  statementfroml1c61tol1c62 --> statementfroml1c71tol1c79`);
+
+subgraph q
+  statementfroml1c16tol1c90{"switch x "}
+  statementfroml1c34tol1c43>"return 1;"]
+  style statementfroml1c34tol1c43 fill:#99FF99
+  statementfroml1c51tol1c61("const a = 1;")
+  statementfroml1c61tol1c70>"return 3;"]
+  style statementfroml1c61tol1c70 fill:#99FF99
+  statementfroml1c71tol1c72["Empty statement at line 1 column 71"]
+  statementfroml1c81tol1c89>"return 4;"]
+  style statementfroml1c81tol1c89 fill:#99FF99
+  statementfroml1c16tol1c90 -- 0 --> statementfroml1c34tol1c43
+  statementfroml1c51tol1c61 --> statementfroml1c61tol1c70
+  statementfroml1c16tol1c90 -- 2 --> statementfroml1c51tol1c61
+  statementfroml1c16tol1c90 -- default --> statementfroml1c81tol1c89
+  statementfroml1c71tol1c72 --> statementfroml1c81tol1c89
+end
+`);
 });
 
-test("7", () => {
+test("9", () => {
   const res = transformJsStringToMermaidString(
-    `(x)=>{
+    `const gogo = function(x){
           let y = 9;
           switch(x){
               case 0: throw new Error("coco");
@@ -120,9 +191,11 @@ test("7", () => {
           return y + 1;
         }`
   );
-  //   console.log(res);
+  // console.log(res);
 
   expect(res).toEqual(`graph TD
+
+subgraph gogo
   statementfroml2c10tol2c20("let y = 9;")
   statementfroml3c10tol10c11{"switch x "}
   statementfroml4c22tol4c46>"throw new Error('coco');"]
@@ -132,7 +205,7 @@ test("7", () => {
   statementfroml6c22tol6c33("const a = 98;")
   statementfroml6c33tol6c42>"return 3;"]
   style statementfroml6c33tol6c42 fill:#99FF99
-  statementfroml6c43tol6c44("Empty statement at line 6 column 43")
+  statementfroml6c43tol6c44["Empty statement at line 6 column 43"]
   statementfroml7c22tol7c27("y = 5;")
   statementfroml8c22tol8c26("y = 9;")
   statementfroml8c27tol8c33["break;"]
@@ -153,5 +226,7 @@ test("7", () => {
   statementfroml3c10tol10c11 -- default --> statementfroml9c23tol9c31
   statementfroml2c10tol2c20 --> statementfroml3c10tol10c11
   statementfroml8c27tol8c33 --> statementfroml11c10tol11c25
-  statementfroml11c10tol11c25 --> statementfroml12c10tol12c23`);
+  statementfroml11c10tol11c25 --> statementfroml12c10tol12c23
+end
+`);
 });
