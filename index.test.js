@@ -100,7 +100,8 @@ test("6", () => {
   statementfroml1c6tol1c80 -- 0 --> statementfroml1c24tol1c33
   statementfroml1c41tol1c51 --> statementfroml1c51tol1c60
   statementfroml1c6tol1c80 -- 2 --> statementfroml1c41tol1c51
-  statementfroml1c6tol1c80 -- default --> statementfroml1c71tol1c79`);
+  statementfroml1c6tol1c80 -- default --> statementfroml1c71tol1c79
+  statementfroml1c61tol1c62 --> statementfroml1c71tol1c79`);
 });
 
 test("7", () => {
@@ -119,19 +120,38 @@ test("7", () => {
           return y + 1;
         }`
   );
-  console.log(res);
-  expect(1).toEqual(1);
-  //   expect(res).toEqual(`graph TD
-  //     statementfroml1c6tol1c80{"switch x "}
-  //     statementfroml1c24tol1c33>"return 1;"]
-  //     style statementfroml1c24tol1c33 fill:#99FF99
-  //     statementfroml1c41tol1c51("const a = 1;")
-  //     statementfroml1c51tol1c60>"return 3;"]
-  //     style statementfroml1c51tol1c60 fill:#99FF99
-  //     statementfroml1c71tol1c79>"return 4;"]
-  //     style statementfroml1c71tol1c79 fill:#99FF99
-  //     statementfroml1c6tol1c80 -- 0 --> statementfroml1c24tol1c33
-  //     statementfroml1c41tol1c51 --> statementfroml1c51tol1c60
-  //     statementfroml1c6tol1c80 -- 2 --> statementfroml1c41tol1c51
-  //     statementfroml1c6tol1c80 -- default --> statementfroml1c71tol1c79`);
+  //   console.log(res);
+
+  expect(res).toEqual(`graph TD
+  statementfroml2c10tol2c20("let y = 9;")
+  statementfroml3c10tol10c11{"switch x "}
+  statementfroml4c22tol4c46>"throw new Error('coco');"]
+  style statementfroml4c22tol4c46 fill:#FF9999
+  statementfroml5c22tol5c31>"return 1;"]
+  style statementfroml5c22tol5c31 fill:#99FF99
+  statementfroml6c22tol6c33("const a = 98;")
+  statementfroml6c33tol6c42>"return 3;"]
+  style statementfroml6c33tol6c42 fill:#99FF99
+  statementfroml6c43tol6c44("Empty statement at line 6 column 43")
+  statementfroml7c22tol7c27("y = 5;")
+  statementfroml8c22tol8c26("y = 9;")
+  statementfroml8c27tol8c33["break;"]
+  statementfroml9c23tol9c31>"return 4;"]
+  style statementfroml9c23tol9c31 fill:#99FF99
+  statementfroml11c10tol11c25("console.log(y);")
+  statementfroml12c10tol12c23>"return y + 1;"]
+  style statementfroml12c10tol12c23 fill:#99FF99
+  statementfroml3c10tol10c11 -- 0 --> statementfroml4c22tol4c46
+  statementfroml3c10tol10c11 -- 1 --> statementfroml5c22tol5c31
+  statementfroml6c22tol6c33 --> statementfroml6c33tol6c42
+  statementfroml3c10tol10c11 -- 2 --> statementfroml6c22tol6c33
+  statementfroml3c10tol10c11 -- 3 --> statementfroml7c22tol7c27
+  statementfroml6c43tol6c44 --> statementfroml7c22tol7c27
+  statementfroml8c22tol8c26 --> statementfroml8c27tol8c33
+  statementfroml3c10tol10c11 -- 4 --> statementfroml8c22tol8c26
+  statementfroml7c22tol7c27 --> statementfroml8c22tol8c26
+  statementfroml3c10tol10c11 -- default --> statementfroml9c23tol9c31
+  statementfroml2c10tol2c20 --> statementfroml3c10tol10c11
+  statementfroml8c27tol8c33 --> statementfroml11c10tol11c25
+  statementfroml11c10tol11c25 --> statementfroml12c10tol12c23`);
 });

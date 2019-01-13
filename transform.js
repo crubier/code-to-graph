@@ -10,12 +10,13 @@ function makeIdFromAstNode(astNode) {
 function transformStatementSequenceToGraph(statements) {
   return fp.reduce(
     (
-      { nodes, edges, entryNodes, exitNodes },
+      { nodes, edges, entryNodes, exitNodes, breakNodes },
       {
         nodes: currentNodes,
         edges: currentEdges,
         entryNodes: currentEntryNodes,
-        exitNodes: currentExitNodes
+        exitNodes: currentExitNodes,
+        breakNodes: currentBreakNodes
       }
     ) => ({
       nodes: [...nodes, ...currentNodes],
@@ -40,9 +41,10 @@ function transformStatementSequenceToGraph(statements) {
         )
       ]),
       entryNodes: fp.isEmpty(entryNodes) ? currentEntryNodes : entryNodes,
-      exitNodes: currentExitNodes
+      exitNodes: currentExitNodes,
+      breakNodes: [...breakNodes, ...currentBreakNodes]
     }),
-    { nodes: [], edges: [], entryNodes: [], exitNodes: [] },
+    { nodes: [], edges: [], entryNodes: [], exitNodes: [], breakNodes: [] },
     fp.map(transformStatementToGraph, statements)
   );
 }
@@ -62,7 +64,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: [node]
+        exitNodes: [node],
+        breakNodes: []
       };
     }
     case "ExpressionStatement": {
@@ -75,7 +78,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: [node]
+        exitNodes: [node],
+        breakNodes: []
       };
     }
     case "EmptyStatement": {
@@ -90,7 +94,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: [node]
+        exitNodes: [node],
+        breakNodes: []
       };
     }
     case "ReturnStatement": {
@@ -104,7 +109,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: []
+        exitNodes: [],
+        breakNodes: []
       };
     }
     case "ThrowStatement": {
@@ -119,7 +125,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: []
+        exitNodes: [],
+        breakNodes: []
       };
     }
     case "BreakStatement": {
@@ -132,7 +139,8 @@ function transformStatementToGraph(statement) {
         nodes: [node],
         edges: [],
         entryNodes: [node],
-        exitNodes: [node]
+        exitNodes: [],
+        breakNodes: [node]
       };
     }
     case "IfStatement": {
@@ -180,7 +188,8 @@ function transformStatementToGraph(statement) {
         nodes: [thisNode, ...consequentNodes, ...alternateNodes],
         edges: [...thisEdges, ...consequentEdges, ...alternateEdges],
         entryNodes: [thisNode],
-        exitNodes: [...consequentExitNodes, ...alternateExitNodes]
+        exitNodes: [...consequentExitNodes, ...alternateExitNodes],
+        breakNodes: []
       };
     }
     case "SwitchStatement": {
@@ -190,13 +199,17 @@ function transformStatementToGraph(statement) {
         shape: "rhombus"
       });
 
-      return fp.reduce(
-        ({ nodes, edges, entryNodes, exitNodes }, caseAstElement) => {
+      const scopeGraph = fp.reduce(
+        (
+          { nodes, edges, entryNodes, exitNodes, breakNodes },
+          caseAstElement
+        ) => {
           const {
             nodes: caseNodes,
             edges: caseEdges,
             entryNodes: caseEntryNodes,
-            exitNodes: caseExitNodes
+            exitNodes: caseExitNodes,
+            breakNodes: caseBreakNodes
           } = transformStatementSequenceToGraph(caseAstElement.consequent);
           const caseEntryEdges = fp.map(
             node => ({
@@ -210,17 +223,53 @@ function transformStatementToGraph(statement) {
             }),
             caseEntryNodes
           );
+          const caseFollowEdges = fp.flatten(
+            fp.map(
+              exitNode =>
+                fp.map(
+                  entryNode => ({
+                    from: exitNode.id,
+                    to: entryNode.id,
+                    name: "",
+                    style: "solid",
+                    arrow: true
+                  }),
+                  caseEntryNodes
+                ),
+              exitNodes
+            )
+          );
           // console.log("caseNodes", caseNodes);
           return {
             nodes: [...nodes, ...caseNodes],
-            edges: fp.compact([...edges, ...caseEdges, ...caseEntryEdges]),
+            edges: fp.compact([
+              ...edges,
+              ...caseEdges,
+              ...caseEntryEdges,
+              ...caseFollowEdges
+            ]),
             entryNodes: [...entryNodes],
-            exitNodes: [...exitNodes, ...caseExitNodes]
+            exitNodes: [...caseExitNodes],
+            breakNodes: [...breakNodes, ...caseBreakNodes]
           };
         },
-        { nodes: [thisNode], edges: [], entryNodes: [thisNode], exitNodes: [] },
+        {
+          nodes: [thisNode],
+          edges: [],
+          entryNodes: [thisNode],
+          exitNodes: [],
+          breakNodes: []
+        },
         statement.cases
       );
+
+      return {
+        nodes: [...scopeGraph.nodes],
+        edges: [...scopeGraph.edges],
+        entryNodes: [...scopeGraph.entryNodes],
+        exitNodes: [...scopeGraph.breakNodes],
+        breakNodes: []
+      };
     }
 
     default:
