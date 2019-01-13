@@ -2,7 +2,6 @@ const { default: generate } = require("@babel/generator");
 const fp = require("lodash/fp");
 
 function makeIdFromAstNode(astNode) {
-  // console.log(astNode);
   return `statementfroml${astNode.loc.start.line}c${
     astNode.loc.start.column
   }tol${astNode.loc.end.line}c${astNode.loc.end.column}`;
@@ -24,7 +23,6 @@ function transformStatementSequenceToGraph(statements) {
         ...edges,
         ...currentEdges,
         ...fp.flatten(
-          (console.log(exitNodes),
           fp.map(
             exitNode =>
               fp.map(
@@ -38,20 +36,11 @@ function transformStatementSequenceToGraph(statements) {
                 currentEntryNodes
               ),
             exitNodes
-          ))
+          )
         )
-        // fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
-        //   ? null
-        //   : {
-        //       from: fp.last(nodes).id,
-        //       to: fp.first(currentNodes).id,
-        //       name: "",
-        //       style: "solid",
-        //       arrow: true
-        //     }
       ]),
       entryNodes: fp.isEmpty(entryNodes) ? currentEntryNodes : entryNodes,
-      exitNodes: fp.isEmpty(currentExitNodes) ? exitNodes : currentExitNodes
+      exitNodes: currentExitNodes
     }),
     { nodes: [], edges: [], entryNodes: [], exitNodes: [] },
     fp.map(transformStatementToGraph, statements)
@@ -80,6 +69,21 @@ function transformStatementToGraph(statement) {
       const node = cleanGraphNode({
         id: makeIdFromAstNode(statement),
         name: generate(statement).code,
+        shape: "round"
+      });
+      return {
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: [node]
+      };
+    }
+    case "EmptyStatement": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: `Empty statement at line ${statement.loc.start.line} column ${
+          statement.loc.start.column
+        }`,
         shape: "round"
       });
       return {
@@ -218,14 +222,7 @@ function transformStatementToGraph(statement) {
         statement.cases
       );
     }
-    case "EmptyStatement": {
-      return {
-        nodes: [],
-        edges: [],
-        entryNodes: [],
-        exitNodes: []
-      };
-    }
+
     default:
       throw new Error(
         `Statements of type ${statement.type} are not yet supported`
