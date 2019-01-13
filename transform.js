@@ -105,8 +105,6 @@ function tramsformStatementToGraph(statement) {
       return transformGeneralAstToGraph(statement.body);
     }
     case "ClassMethod": {
-      console.log("ClassMethod");
-      console.log(statement);
       return {
         nodes: [],
         edges: [],
