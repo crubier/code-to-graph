@@ -454,20 +454,23 @@ function tramsformStatementToGraph(statement) {
         nodes: consequentNodes,
         edges: consequentEdges,
         entryNodes: consequentEntryNodes,
-        exitNodes: consequentExitNodes
+        exitNodes: consequentExitNodes,
+        breakNodes: consequentBreakNodes
       } = transformGeneralAstToGraph(statement.consequent);
       const {
         nodes: alternateNodes,
         edges: alternateEdges,
         entryNodes: alternateEntryNodes,
-        exitNodes: alternateExitNodes
+        exitNodes: alternateExitNodes,
+        breakNodes: alternateBreakNodes
       } = !fp.isNil(statement.alternate)
         ? transformGeneralAstToGraph(statement.alternate)
         : {
             nodes: [],
             edges: [],
             entryNodes: [],
-            exitNodes: [thisNode]
+            exitNodes: [thisNode],
+            breakNodes: []
           };
 
       const thisEdges = [
@@ -497,7 +500,7 @@ function tramsformStatementToGraph(statement) {
         edges: [...thisEdges, ...consequentEdges, ...alternateEdges],
         entryNodes: [thisNode],
         exitNodes: [...consequentExitNodes, ...alternateExitNodes],
-        breakNodes: [],
+        breakNodes: [...consequentBreakNodes, ...alternateBreakNodes],
         subGraphs: []
       };
     }

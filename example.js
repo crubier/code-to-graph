@@ -23,6 +23,9 @@ async function coucou(x) {
   do {
     b = b + 1;
     c = f(k);
+    if (k) {
+      break;
+    }
   } while (b < 4);
   if (k++ == 5) {
     coucou2 = 24;
