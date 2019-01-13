@@ -11,13 +11,19 @@ export function toto(args) {
 async function coucou(x) {
   const a = 5;
   const b = await toto(44);
-  if (b) {
-    return 5;
-  } else if (c) {
-    throw new Error("Not");
-  } else {
-    b = 52;
+  while (b > 0) {
+    if (b) {
+      return 5;
+    } else if (c) {
+      throw new Error("Not");
+    } else {
+      b = 52;
+    }
   }
+  do {
+    b = b + 1;
+    c = f(k);
+  } while (b < 4);
   if (k++ == 5) {
     coucou2 = 24;
   }

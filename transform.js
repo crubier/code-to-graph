@@ -238,7 +238,7 @@ function tramsformStatementToGraph(statement) {
           ]
         };
       } else if (statement.expression.type === "FunctionExpression") {
-        console.log("FunctionExpression");
+        // console.log("FunctionExpression");
         return {
           nodes: [],
           edges: [],
@@ -355,6 +355,50 @@ function tramsformStatementToGraph(statement) {
         subGraphs: []
       };
     }
+    case "DoWhileStatement":
+      const thisNode = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: `do while ${generate(statement.test).code}`,
+        shape: "rhombus"
+      });
+      const {
+        nodes: bodyNodes,
+        edges: bodyEdges,
+        entryNodes: bodyEntryNodes,
+        exitNodes: bodyExitNodes,
+        breakNodes: bodyBreakNodes
+      } = transformGeneralAstToGraph(statement.body);
+
+      const thisEdges = [
+        ...fp.map(
+          node => ({
+            to: thisNode.id,
+            from: node.id,
+            name: "do",
+            style: "solid",
+            arrow: true
+          }),
+          bodyExitNodes
+        ),
+        ...fp.map(
+          node => ({
+            to: node.id,
+            from: thisNode.id,
+            name: "loop",
+            style: "solid",
+            arrow: true
+          }),
+          bodyEntryNodes
+        )
+      ];
+      return {
+        nodes: [thisNode, ...bodyNodes],
+        edges: [...thisEdges, ...bodyEdges],
+        entryNodes: [...bodyEntryNodes],
+        exitNodes: [...bodyBreakNodes, thisNode],
+        breakNodes: [],
+        subGraphs: []
+      };
     case "WhileStatement": {
       const thisNode = cleanGraphNode({
         id: makeIdFromAstNode(statement),
