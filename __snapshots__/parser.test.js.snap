@@ -1,5 +1,201 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parser const yield 1`] = `
+Node {
+  "comments": Array [],
+  "end": 34,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 34,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "declarations": Array [
+                Node {
+                  "end": 32,
+                  "id": Node {
+                    "end": 22,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 22,
+                        "line": 1,
+                      },
+                      "identifierName": "a",
+                      "start": Position {
+                        "column": 21,
+                        "line": 1,
+                      },
+                    },
+                    "name": "a",
+                    "start": 21,
+                    "type": "Identifier",
+                  },
+                  "init": Node {
+                    "argument": Node {
+                      "end": 32,
+                      "extra": Object {
+                        "raw": "5",
+                        "rawValue": 5,
+                      },
+                      "loc": SourceLocation {
+                        "end": Position {
+                          "column": 32,
+                          "line": 1,
+                        },
+                        "start": Position {
+                          "column": 31,
+                          "line": 1,
+                        },
+                      },
+                      "start": 31,
+                      "type": "NumericLiteral",
+                      "value": 5,
+                    },
+                    "delegate": false,
+                    "end": 32,
+                    "loc": SourceLocation {
+                      "end": Position {
+                        "column": 32,
+                        "line": 1,
+                      },
+                      "start": Position {
+                        "column": 25,
+                        "line": 1,
+                      },
+                    },
+                    "start": 25,
+                    "type": "YieldExpression",
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 32,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 1,
+                    },
+                  },
+                  "start": 21,
+                  "type": "VariableDeclarator",
+                },
+              ],
+              "end": 33,
+              "kind": "const",
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 33,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 15,
+                  "line": 1,
+                },
+              },
+              "start": 15,
+              "type": "VariableDeclaration",
+            },
+          ],
+          "directives": Array [],
+          "end": 34,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 34,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 14,
+              "line": 1,
+            },
+          },
+          "start": 14,
+          "type": "BlockStatement",
+        },
+        "end": 34,
+        "generator": true,
+        "id": Node {
+          "end": 11,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 11,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 10,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 10,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 34,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 13,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 13,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 12,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 12,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 34,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 34,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "module",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
 exports[`parser if else 1`] = `
 Node {
   "comments": Array [],
@@ -1726,6 +1922,167 @@ Node {
     "loc": SourceLocation {
       "end": Position {
         "column": 81,
+        "line": 1,
+      },
+      "start": Position {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "module",
+    "start": 0,
+    "type": "Program",
+  },
+  "start": 0,
+  "type": "File",
+}
+`;
+
+exports[`parser yield 1`] = `
+Node {
+  "comments": Array [],
+  "end": 24,
+  "loc": SourceLocation {
+    "end": Position {
+      "column": 24,
+      "line": 1,
+    },
+    "start": Position {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "program": Node {
+    "body": Array [
+      Node {
+        "async": false,
+        "body": Node {
+          "body": Array [
+            Node {
+              "end": 23,
+              "expression": Node {
+                "argument": Node {
+                  "end": 22,
+                  "extra": Object {
+                    "raw": "5",
+                    "rawValue": 5,
+                  },
+                  "loc": SourceLocation {
+                    "end": Position {
+                      "column": 22,
+                      "line": 1,
+                    },
+                    "start": Position {
+                      "column": 21,
+                      "line": 1,
+                    },
+                  },
+                  "start": 21,
+                  "type": "NumericLiteral",
+                  "value": 5,
+                },
+                "delegate": false,
+                "end": 22,
+                "loc": SourceLocation {
+                  "end": Position {
+                    "column": 22,
+                    "line": 1,
+                  },
+                  "start": Position {
+                    "column": 15,
+                    "line": 1,
+                  },
+                },
+                "start": 15,
+                "type": "YieldExpression",
+              },
+              "loc": SourceLocation {
+                "end": Position {
+                  "column": 23,
+                  "line": 1,
+                },
+                "start": Position {
+                  "column": 15,
+                  "line": 1,
+                },
+              },
+              "start": 15,
+              "type": "ExpressionStatement",
+            },
+          ],
+          "directives": Array [],
+          "end": 24,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 24,
+              "line": 1,
+            },
+            "start": Position {
+              "column": 14,
+              "line": 1,
+            },
+          },
+          "start": 14,
+          "type": "BlockStatement",
+        },
+        "end": 24,
+        "generator": true,
+        "id": Node {
+          "end": 11,
+          "loc": SourceLocation {
+            "end": Position {
+              "column": 11,
+              "line": 1,
+            },
+            "identifierName": "f",
+            "start": Position {
+              "column": 10,
+              "line": 1,
+            },
+          },
+          "name": "f",
+          "start": 10,
+          "type": "Identifier",
+        },
+        "loc": SourceLocation {
+          "end": Position {
+            "column": 24,
+            "line": 1,
+          },
+          "start": Position {
+            "column": 0,
+            "line": 1,
+          },
+        },
+        "params": Array [
+          Node {
+            "end": 13,
+            "loc": SourceLocation {
+              "end": Position {
+                "column": 13,
+                "line": 1,
+              },
+              "identifierName": "x",
+              "start": Position {
+                "column": 12,
+                "line": 1,
+              },
+            },
+            "name": "x",
+            "start": 12,
+            "type": "Identifier",
+          },
+        ],
+        "start": 0,
+        "type": "FunctionDeclaration",
+      },
+    ],
+    "directives": Array [],
+    "end": 24,
+    "interpreter": null,
+    "loc": SourceLocation {
+      "end": Position {
+        "column": 24,
         "line": 1,
       },
       "start": Position {

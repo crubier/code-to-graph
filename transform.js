@@ -153,15 +153,25 @@ function tramsformStatementToGraph(statement) {
         name: generate(statement).code,
         shape: "round"
       });
+      return {
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: [node],
+        breakNodes: [],
+        subGraphs: []
+      };
     }
     case "VariableDeclaration": {
       // console.log("VariableDeclaration");
       // console.log(statement);
 
-      const literalsDeclarators = fp.filter(declaration => {
-        if (declaration.init.type === "FunctionExpression") {
+      const literalsDeclarators = fp.filter(declarator => {
+        if (declarator.init.type === "FunctionExpression") {
           return false;
-        } else if (declaration.init.type === "ArrowFunctionExpression") {
+        } else if (declarator.init.type === "ArrowFunctionExpression") {
+          return false;
+        } else if (declarator.init.type === "YieldExpression") {
           return false;
         } else {
           return true;
@@ -188,6 +198,8 @@ function tramsformStatementToGraph(statement) {
           return true;
         } else if (declarator.init.type === "ArrowFunctionExpression") {
           return true;
+        } else if (declarator.init.type === "YieldExpression") {
+          return false;
         } else {
           return false;
         }
@@ -213,11 +225,42 @@ function tramsformStatementToGraph(statement) {
         functionsDeclarators
       );
 
+      const yieldDeclarators = fp.filter(declarator => {
+        if (declarator.init.type === "FunctionExpression") {
+          return false;
+        } else if (declarator.init.type === "ArrowFunctionExpression") {
+          return false;
+        } else if (declarator.init.type === "YieldExpression") {
+          console.log("YIELLLDD");
+          console.log(declarator);
+          console.log("");
+          return true;
+        } else {
+          return false;
+        }
+      }, statement.declarations);
+
+      const yieldDeclarations = {
+        ...statement,
+        declarations: [...yieldDeclarators]
+      };
+
+      const yieldNodes = fp.isEmpty(yieldDeclarations.declarations)
+        ? []
+        : [
+            cleanGraphNode({
+              id: makeIdFromAstNode(statement),
+              name: generate(statement).code,
+              shape: "asymetric",
+              style: { fill: "#99CCFF" }
+            })
+          ];
+
       return {
-        nodes: [...literalsNodes],
+        nodes: [...literalsNodes, ...yieldNodes],
         edges: [],
-        entryNodes: [...literalsNodes],
-        exitNodes: [...literalsNodes],
+        entryNodes: [...literalsNodes, ...yieldNodes],
+        exitNodes: [...literalsNodes, ...yieldNodes],
         breakNodes: [],
         subGraphs: [...functionsSubGraphs.subGraphs]
       };
@@ -251,6 +294,21 @@ function tramsformStatementToGraph(statement) {
               graph: transformGeneralAstToGraph(statement.body)
             }
           ]
+        };
+      } else if (statement.expression.type === "YieldExpression") {
+        const node = cleanGraphNode({
+          id: makeIdFromAstNode(statement),
+          name: generate(statement).code,
+          shape: "asymetric",
+          style: { fill: "#99CCFF" }
+        });
+        return {
+          nodes: [node],
+          edges: [],
+          entryNodes: [node],
+          exitNodes: [node],
+          breakNodes: [],
+          subGraphs: []
         };
       } else {
         const node = cleanGraphNode({

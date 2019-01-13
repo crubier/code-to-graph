@@ -47,4 +47,16 @@ describe("parser", () => {
       )
     ).toMatchSnapshot();
   });
+
+  test("yield", () => {
+    expect(
+      transformJsStringToJsAst("function* f(x){yield 5;}")
+    ).toMatchSnapshot();
+  });
+
+  test("const yield", () => {
+    expect(
+      transformJsStringToJsAst("function* f(x){const a = yield 5;}")
+    ).toMatchSnapshot();
+  });
 });

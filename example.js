@@ -1,11 +1,26 @@
 import { toto } from "tutu";
 
 function main(args) {
-  return 1;
+  function f() {
+    const d = async () => {
+      await 5;
+      return toto;
+    };
+    let a = 5;
+    a = a + 1;
+    if (a > 3) {
+      throw new Error("not normal");
+    }
+    return 1;
+  }
 }
 
-export function toto(args) {
-  return 2;
+export async function* totoGen(args) {
+  yield 1;
+  yield 5;
+  const c = yield 21;
+  const d = await coco(c);
+  return d;
 }
 
 async function coucou(x) {
