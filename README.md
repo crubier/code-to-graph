@@ -47,3 +47,9 @@ Call the cli with a js file name, it prints out the Mermaid.js graph definition
 ```bash
 code-to-graph example.js
 ```
+
+To see the result visualy, paste it in
+
+https://mermaidjs.github.io/mermaid-live-editor
+
+Or you can use it on gitlab using the ```mermaid language in comments, descriptions or markdown files.
