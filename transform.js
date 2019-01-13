@@ -23,15 +23,32 @@ function transformStatementSequenceToGraph(statements) {
       edges: fp.compact([
         ...edges,
         ...currentEdges,
-        fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
-          ? null
-          : {
-              from: fp.last(nodes).id,
-              to: fp.first(currentNodes).id,
-              name: "",
-              style: "solid",
-              arrow: true
-            }
+        ...fp.flatten(
+          (console.log(exitNodes),
+          fp.map(
+            exitNode =>
+              fp.map(
+                entryNode => ({
+                  from: exitNode.id,
+                  to: entryNode.id,
+                  name: "",
+                  style: "solid",
+                  arrow: true
+                }),
+                currentEntryNodes
+              ),
+            exitNodes
+          ))
+        )
+        // fp.isEmpty(nodes) || fp.isEmpty(currentNodes)
+        //   ? null
+        //   : {
+        //       from: fp.last(nodes).id,
+        //       to: fp.first(currentNodes).id,
+        //       name: "",
+        //       style: "solid",
+        //       arrow: true
+        //     }
       ]),
       entryNodes: fp.isEmpty(entryNodes) ? currentEntryNodes : entryNodes,
       exitNodes: fp.isEmpty(currentExitNodes) ? exitNodes : currentExitNodes
@@ -47,6 +64,19 @@ function transformStatementToGraph(statement) {
       return transformStatementSequenceToGraph(statement.body);
     }
     case "VariableDeclaration": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "round"
+      });
+      return {
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: [node]
+      };
+    }
+    case "ExpressionStatement": {
       const node = cleanGraphNode({
         id: makeIdFromAstNode(statement),
         name: generate(statement).code,
@@ -86,6 +116,19 @@ function transformStatementToGraph(statement) {
         edges: [],
         entryNodes: [node],
         exitNodes: []
+      };
+    }
+    case "BreakStatement": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "square"
+      });
+      return {
+        nodes: [node],
+        edges: [],
+        entryNodes: [node],
+        exitNodes: [node]
       };
     }
     case "IfStatement": {
@@ -168,7 +211,7 @@ function transformStatementToGraph(statement) {
             nodes: [...nodes, ...caseNodes],
             edges: fp.compact([...edges, ...caseEdges, ...caseEntryEdges]),
             entryNodes: [...entryNodes],
-            exitNodes: [exitNodes, ...caseExitNodes]
+            exitNodes: [...exitNodes, ...caseExitNodes]
           };
         },
         { nodes: [thisNode], edges: [], entryNodes: [thisNode], exitNodes: [] },
