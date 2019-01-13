@@ -30,6 +30,13 @@ async function coucou(x) {
   if (k++ == 5) {
     coucou2 = 24;
   }
+  for (let t = 0; t < 5; t++) {
+    if (l) {
+      f(h);
+    } else {
+      webkitCancelAnimationFrame(32);
+    }
+  }
   return a * 3;
 }
 

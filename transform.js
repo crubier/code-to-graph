@@ -444,6 +444,53 @@ function tramsformStatementToGraph(statement) {
         subGraphs: []
       };
     }
+    case "ForStatement": {
+      const thisNode = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: `for ${generate(statement.init).code} ; ${
+          generate(statement.test).code
+        } ; ${generate(statement.update).code}`,
+        shape: "rhombus"
+      });
+      const {
+        nodes: bodyNodes,
+        edges: bodyEdges,
+        entryNodes: bodyEntryNodes,
+        exitNodes: bodyExitNodes,
+        breakNodes: bodyBreakNodes
+      } = transformGeneralAstToGraph(statement.body);
+
+      const thisEdges = [
+        ...fp.map(
+          node => ({
+            from: thisNode.id,
+            to: node.id,
+            name: "do",
+            style: "solid",
+            arrow: true
+          }),
+          bodyEntryNodes
+        ),
+        ...fp.map(
+          node => ({
+            from: node.id,
+            to: thisNode.id,
+            name: "loop",
+            style: "solid",
+            arrow: true
+          }),
+          bodyExitNodes
+        )
+      ];
+      return {
+        nodes: [thisNode, ...bodyNodes],
+        edges: [...thisEdges, ...bodyEdges],
+        entryNodes: [thisNode],
+        exitNodes: [...bodyBreakNodes, thisNode],
+        breakNodes: [],
+        subGraphs: []
+      };
+    }
     case "IfStatement": {
       const thisNode = cleanGraphNode({
         id: makeIdFromAstNode(statement),
