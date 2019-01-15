@@ -20,8 +20,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: `const helloWorld = (you) => {
-  return "hello "+ you;
+      value: `const myFunction = (x) => {
+  if(x>0){
+    return "ok"
+  } else {
+    throw "not ok"
+  }
 }`,
       source: `graph TB; Init;`,
       error: null,
@@ -224,10 +228,10 @@ class App extends Component {
                 height: "20%"
               }}
               setOptions={{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
+                enableBasicAutocompletion: false,
+                enableLiveAutocompletion: false,
+                enableSnippets: false,
+                showLineNumbers: false,
                 tabSize: 2
               }}
             />

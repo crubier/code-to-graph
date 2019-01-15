@@ -10,8 +10,7 @@ import debounce from "lodash/fp/debounce";
 function getDiagram(title, input, callback) {
   try {
     mermaidAPI.initialize({
-      startOnLoad: true,
-      logLevel: 1
+      startOnLoad: true
     });
 
     mermaidAPI.parseError = function(err, hash) {
