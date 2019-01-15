@@ -2,9 +2,9 @@ const { default: generate } = require("@babel/generator");
 const fp = require("lodash/fp");
 
 function makeIdFromAstNode(astNode) {
-  return `statementfroml${astNode.loc.start.line}c${
-    astNode.loc.start.column
-  }tol${astNode.loc.end.line}c${astNode.loc.end.column}`;
+  return `froml${astNode.loc.start.line}c${astNode.loc.start.column}tol${
+    astNode.loc.end.line
+  }c${astNode.loc.end.column}`;
 }
 
 function transformGeneralAstToGraph(ast) {
@@ -42,7 +42,7 @@ function tramsformStatementSequenceToGraph(statements) {
                   from: exitNode.id,
                   to: entryNode.id,
                   name: "",
-                  style: "solid",
+                  type: "solid",
                   arrow: true
                 }),
                 currentEntryNodes
@@ -85,7 +85,7 @@ function tramsformStatementToGraph(statement) {
         breakNodes: [],
         subGraphs: [
           {
-            name: `class ${
+            name: `class_${
               fp.isNil(statement.id)
                 ? makeIdFromAstNode(statement)
                 : generate(statement.id).code
@@ -113,7 +113,7 @@ function tramsformStatementToGraph(statement) {
         breakNodes: [],
         subGraphs: [
           {
-            name: `method ${
+            name: `method_${
               fp.isNil(statement.key)
                 ? makeIdFromAstNode(statement)
                 : generate(statement.key).code
@@ -134,9 +134,11 @@ function tramsformStatementToGraph(statement) {
         breakNodes: [],
         subGraphs: [
           {
-            name: fp.isNil(statement.id)
-              ? makeIdFromAstNode(statement)
-              : generate(statement.id).code,
+            name: `function_${
+              fp.isNil(statement.id)
+                ? makeIdFromAstNode(statement)
+                : generate(statement.id).code
+            }`,
             graph: transformGeneralAstToGraph(statement.body)
           }
         ]
@@ -213,7 +215,7 @@ function tramsformStatementToGraph(statement) {
             subGraphs: [
               ...subGraphs,
               {
-                name: declarator.id.name,
+                name: `function_${declarator.id.name}`,
                 graph: transformGeneralAstToGraph(declarator.init)
               }
             ]
@@ -275,7 +277,7 @@ function tramsformStatementToGraph(statement) {
           breakNodes: [],
           subGraphs: [
             {
-              name: makeIdFromAstNode(statement),
+              name: `function_${makeIdFromAstNode(statement)}`,
               graph: transformGeneralAstToGraph(statement.expression.body)
             }
           ]
@@ -290,7 +292,7 @@ function tramsformStatementToGraph(statement) {
           breakNodes: [],
           subGraphs: [
             {
-              name: statement.name,
+              name: `function_${statement.name}`,
               graph: transformGeneralAstToGraph(statement.body)
             }
           ]
@@ -325,6 +327,150 @@ function tramsformStatementToGraph(statement) {
           subGraphs: []
         };
       }
+    }
+    case "CatchClause": {
+      return transformGeneralAstToGraph(statement.body);
+    }
+    case "TryStatement": {
+      // statement.finalizer;
+      // statement.handler;
+      // statement.block;
+      const {
+        nodes: blockNodes,
+        edges: blockEdges,
+        entryNodes: blockEntryNodes,
+        exitNodes: blockExitNodes,
+        breakNodes: blockBreakNodes,
+        subGraphs: blockSubGraphs
+      } = transformGeneralAstToGraph(statement.block);
+      const {
+        nodes: finalizerNodes,
+        edges: finalizerEdges,
+        entryNodes: finalizerEntryNodes,
+        exitNodes: finalizerExitNodes,
+        breakNodes: finalizerBreakNodes,
+        subGraphs: finalizerSubGraphs
+      } = transformGeneralAstToGraph(statement.finalizer);
+      const {
+        nodes: handlerNodes,
+        edges: handlerEdges,
+        entryNodes: handlerEntryNodes,
+        exitNodes: handlerExitNodes,
+        breakNodes: handlerBreakNodes,
+        subGraphs: handlerSubGraphs
+      } = transformGeneralAstToGraph(statement.handler);
+      const blockToFinallyEdges = fp.isObject(statement.finalizer)
+        ? fp.flatten(
+            fp.map(blockExitNode => {
+              return fp.map(finalizerEntryNode => {
+                // console.log("blockExitNode", blockExitNode);
+                // console.log("finalizerEntryNode", finalizerEntryNode);
+                return {
+                  from: blockExitNode.id,
+                  to: finalizerEntryNode.id,
+                  name: "",
+                  type: "solid",
+                  arrow: true
+                };
+              }, finalizerEntryNodes);
+            }, blockExitNodes)
+          )
+        : [];
+      const handlerToFinallyEdges = fp.isObject(statement.finalizer)
+        ? fp.flatten(
+            fp.map(handlerExitNode => {
+              return fp.map(finalizerEntryNode => {
+                // console.log("handlerExitNode", handlerExitNode);
+                // console.log("finalizerEntryNode", finalizerEntryNode);
+                return {
+                  from: handlerExitNode.id,
+                  to: finalizerEntryNode.id,
+                  name: "",
+                  type: "solid",
+                  arrow: true
+                };
+              }, finalizerEntryNodes);
+            }, handlerExitNodes)
+          )
+        : [];
+      const blockToHandlerEdges = fp.isObject(statement.handler)
+        ? fp.flatten(
+            fp.map(blockNode => {
+              return fp.map(handlerEntryNode => {
+                // console.log("blockNode", blockNode);
+                // console.log("handlerEntryNode", handlerEntryNode);
+                return {
+                  from: blockNode.id,
+                  to: handlerEntryNode.id,
+                  name: "error",
+                  type: "dotted",
+                  arrow: true
+                };
+              }, handlerEntryNodes);
+            }, blockNodes)
+          )
+        : [];
+      // console.log("blockToFinallyEdges", blockToFinallyEdges);
+      return {
+        nodes: [],
+        edges: [
+          ...blockToFinallyEdges,
+          ...handlerToFinallyEdges,
+          ...blockToHandlerEdges
+        ],
+        entryNodes: [...blockEntryNodes],
+        exitNodes: fp.isObject(statement.finalizer)
+          ? [...finalizerExitNodes]
+          : [...blockExitNodes],
+        breakNodes: [...finalizerBreakNodes, ...blockBreakNodes],
+        subGraphs: [
+          ...(fp.isObject(statement.block)
+            ? [
+                {
+                  name: `try_${makeIdFromAstNode(statement.block)}`,
+                  graph: {
+                    nodes: blockNodes,
+                    edges: blockEdges,
+                    entryNodes: blockEntryNodes,
+                    exitNodes: blockExitNodes,
+                    breakNodes: blockBreakNodes,
+                    subGraphs: blockSubGraphs
+                  }
+                }
+              ]
+            : []),
+          ...(fp.isObject(statement.finalizer)
+            ? [
+                {
+                  name: `finally_${makeIdFromAstNode(statement.finalizer)}`,
+                  graph: {
+                    nodes: finalizerNodes,
+                    edges: finalizerEdges,
+                    entryNodes: finalizerEntryNodes,
+                    exitNodes: finalizerExitNodes,
+                    breakNodes: finalizerBreakNodes,
+                    subGraphs: finalizerSubGraphs
+                  }
+                }
+              ]
+            : []),
+          ...(fp.isObject(statement.handler)
+            ? [
+                {
+                  name: `catch_${makeIdFromAstNode(statement.handler)}`,
+                  graph: {
+                    nodes: handlerNodes,
+                    edges: handlerEdges,
+                    entryNodes: handlerEntryNodes,
+                    exitNodes: handlerExitNodes,
+                    breakNodes: handlerBreakNodes,
+                    subGraphs: handlerSubGraphs
+                  }
+                }
+              ]
+            : [])
+        ]
+      };
     }
     case "ExportNamedDeclaration":
       return transformGeneralAstToGraph(statement.declaration);
@@ -433,7 +579,7 @@ function tramsformStatementToGraph(statement) {
             to: thisNode.id,
             from: node.id,
             name: "do",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyExitNodes
@@ -443,7 +589,7 @@ function tramsformStatementToGraph(statement) {
             to: node.id,
             from: thisNode.id,
             name: "loop",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyEntryNodes
@@ -477,7 +623,7 @@ function tramsformStatementToGraph(statement) {
             from: thisNode.id,
             to: node.id,
             name: "do",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyEntryNodes
@@ -487,7 +633,7 @@ function tramsformStatementToGraph(statement) {
             from: node.id,
             to: thisNode.id,
             name: "loop",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyExitNodes
@@ -524,7 +670,7 @@ function tramsformStatementToGraph(statement) {
             from: thisNode.id,
             to: node.id,
             name: "do",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyEntryNodes
@@ -534,7 +680,7 @@ function tramsformStatementToGraph(statement) {
             from: node.id,
             to: thisNode.id,
             name: "loop",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           bodyExitNodes
@@ -584,7 +730,7 @@ function tramsformStatementToGraph(statement) {
             from: thisNode.id,
             to: node.id,
             name: "true",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           consequentEntryNodes
@@ -594,7 +740,7 @@ function tramsformStatementToGraph(statement) {
             from: thisNode.id,
             to: node.id,
             name: "false",
-            style: "solid",
+            type: "solid",
             arrow: true
           }),
           alternateEntryNodes
@@ -636,7 +782,7 @@ function tramsformStatementToGraph(statement) {
                 name: fp.isEmpty(caseAstElement.test)
                   ? "default"
                   : generate(caseAstElement.test).code,
-                style: "solid",
+                type: "solid",
                 arrow: true
               }),
               caseEntryNodes
@@ -649,7 +795,7 @@ function tramsformStatementToGraph(statement) {
                       from: exitNode.id,
                       to: entryNode.id,
                       name: "",
-                      style: "solid",
+                      type: "solid",
                       arrow: true
                     }),
                     caseEntryNodes

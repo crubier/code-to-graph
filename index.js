@@ -88,7 +88,7 @@ function transformGraphFragmentToMermaidString({ nodes, edges, subGraphs }) {
     fp.map(({ name, graph }) => {
       //   console.log("SUBGRAPH", name);
       return (
-        `subgraph ${name}\n` +
+        `subgraph ${name.replace("_", " ")}\n` +
         transformGraphFragmentToMermaidString(graph) +
         `\nend`
       );
