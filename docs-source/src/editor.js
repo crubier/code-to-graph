@@ -299,7 +299,7 @@ class App extends Component {
                   <button
                     onClick={() => {
                       // Copy with options
-                      copy(this.state.source, {
+                      copy("```mermaid\n" + this.state.source + "\n```", {
                         debug: true,
                         message: "Press #{key} to copy"
                       });
@@ -340,7 +340,7 @@ class App extends Component {
                     // onSelectionChange={this.onSelectionChange}
                     // onCursorChange={this.onCursorChange}
                     // onValidate={this.onValidate}
-                    value={this.state.source}
+                    value={"```mermaid\n" + this.state.source + "\n```"}
                     // fontSize={this.state.fontSize}
                     // showPrintMargin={this.state.showPrintMargin}
                     // showGutter={this.state.showGutter}
