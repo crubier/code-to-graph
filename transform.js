@@ -76,6 +76,21 @@ function tramsformStatementToGraph(statement) {
     case "Program": {
       return transformGeneralAstToGraph(statement.body);
     }
+    case "ClassProperty": {
+      const node = cleanGraphNode({
+        id: makeIdFromAstNode(statement),
+        name: generate(statement).code,
+        shape: "round"
+      });
+      return {
+        nodes: [node],
+        edges: [],
+        entryNodes: [],
+        exitNodes: [],
+        breakNodes: [],
+        subGraphs: []
+      };
+    }
     case "ClassDeclaration": {
       return {
         nodes: [],
@@ -233,9 +248,9 @@ function tramsformStatementToGraph(statement) {
         } else if (declarator.init.type === "ArrowFunctionExpression") {
           return false;
         } else if (declarator.init.type === "YieldExpression") {
-          console.log("YIELLLDD");
-          console.log(declarator);
-          console.log("");
+          // console.log("YIELLLDD");
+          // console.log(declarator);
+          // console.log("");
           return true;
         } else {
           return false;
@@ -648,6 +663,7 @@ function tramsformStatementToGraph(statement) {
         subGraphs: []
       };
     }
+    case "ForOfStatement":
     case "ForStatement": {
       const thisNode = cleanGraphNode({
         id: makeIdFromAstNode(statement),

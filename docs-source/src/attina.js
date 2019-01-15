@@ -2,6 +2,9 @@ import React from "react";
 import { mermaidAPI } from "mermaid";
 import FileSaver from "file-saver";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+
 // import debounce from "lodash/fp/debounce";
 // mermaidAPI.initialize({
 //   startOnLoad: true,
@@ -106,9 +109,11 @@ class Attina extends React.Component {
             zIndex: 1
           }}
         >
+          <FontAwesomeIcon icon={faDownload} />
+          {"    "} {"    "}
           {this.state.status !== "loading"
             ? "Download SVG File"
-            : "Download SVG File!"}
+            : "Download SVG File"}
         </button>
         <div
           dangerouslySetInnerHTML={this.state.diagram}

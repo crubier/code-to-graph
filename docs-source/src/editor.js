@@ -11,11 +11,20 @@ import AceEditor from "react-ace";
 import Dropzone from "react-dropzone";
 
 import "brace/mode/javascript";
+import "brace/mode/text";
 import "brace/snippets/javascript";
 import "brace/theme/github";
 import "brace/theme/monokai";
 import "brace/ext/language_tools";
 import "brace/ext/searchbox";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSpinner,
+  faPlay,
+  faShareSquare,
+  faUpload
+} from "@fortawesome/free-solid-svg-icons";
 
 import { Base64 } from "js-base64";
 
@@ -113,8 +122,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { code } = getCodeFromLocation({ location: this.props.location });
-    this.handleChange(code);
+    try {
+      const { code } = getCodeFromLocation({ location: this.props.location });
+      this.handleChange(code);
+    } catch (error) {
+      this.setState({
+        status: "error",
+        error: error
+      });
+    }
   }
 
   render() {
@@ -122,6 +138,8 @@ class App extends Component {
     return (
       <Dropzone onDrop={this.onDrop}>
         {({ getRootProps, getInputProps, isDragActive }) => {
+          const inputProps = getInputProps();
+          // console.log(inputProps);
           return (
             <div
               {...getRootProps()}
@@ -189,8 +207,7 @@ class App extends Component {
                     tabSize: 2
                   }}
                 />
-                <input
-                  {...getInputProps()}
+                <div
                   style={{
                     color: "white",
                     // fontSize: "1.2em",
@@ -201,13 +218,42 @@ class App extends Component {
                     flexBasis: "30px",
                     flexShrink: 0,
                     display: "flex",
+                    flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "center",
                     flexGrow: 1,
                     width: "100%",
                     minHeight: "30px"
                   }}
-                />
+                >
+                  <span style={{ fontSize: "11px", marginRight: "1em" }}>
+                    <FontAwesomeIcon
+                      icon={faUpload}
+                      style={{ flexShrink: 1, flexGrow: 1 }}
+                    />
+                    {"   "}
+                    Drop code files anywhere or
+                  </span>
+                  {"   "}
+                  <input
+                    {...inputProps}
+                    style={{
+                      color: "white",
+                      // fontSize: "1.2em",
+                      borderRadius: "0",
+                      border: "none",
+                      outline: "none",
+                      backgroundColor: "#FF44FF",
+                      flexBasis: "fit-content",
+                      flexShrink: 1,
+                      flexGrow: 0,
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  />
+                </div>
               </div>
 
               <button
@@ -229,7 +275,11 @@ class App extends Component {
                   zIndex: 9999
                 }}
               >
-                {this.state.status !== "loading" ? "Go" : "Wait"}
+                {this.state.status !== "loading" ? (
+                  <FontAwesomeIcon icon={faPlay} />
+                ) : (
+                  <FontAwesomeIcon icon={faSpinner} spin />
+                )}
               </button>
               {this.state.error === null || this.state.error === undefined ? (
                 <div
@@ -269,13 +319,20 @@ class App extends Component {
                       minHeight: "30px"
                     }}
                   >
-                    {this.state.status !== "copied"
-                      ? "Copy graph code to clipboard"
-                      : "Copied!"}
+                    {this.state.status !== "copied" ? (
+                      <React.Fragment>
+                        <FontAwesomeIcon icon={faShareSquare} />
+                        {"   "}
+                        Copy graph code to clipboard
+                      </React.Fragment>
+                    ) : (
+                      "Copied!"
+                    )}
                   </button>
                   <AceEditor
-                    // mode="javascript"
+                    mode="text"
                     theme="github"
+                    wrapEnabled={false}
                     readOnly={true}
                     name="result-ace-editor"
                     editorProps={{ $blockScrolling: true }}
@@ -316,9 +373,10 @@ class App extends Component {
                   }}
                 >
                   <AceEditor
-                    // mode="javascript"
+                    mode="text"
                     theme="github"
                     readOnly={true}
+                    wrapEnabled={true}
                     name="error-ace-editor"
                     editorProps={{ $blockScrolling: true }}
                     // onLoad={this.onLoad}

@@ -35,6 +35,12 @@ export async function* generatorExample(args) {
     yield 25;
     let u = yield f(45 + 6);
   }
+  for await (let a of b) {
+    const b = await f(a);
+    yield b + b;
+    frameElement(2);
+    const u = yield 6;
+  }
   return d;
 }
 
@@ -78,6 +84,16 @@ class ExampleClass {
   exampleMethod(x) {
     if (myCondition) return 5;
     return 6;
+  }
+  property = 8;
+  static staticProp = 19;
+  render() {
+    return (
+      <div>
+        <span>Toto</span>
+        <span>Titi</span>
+      </div>
+    );
   }
 }
 
