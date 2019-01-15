@@ -1,5 +1,6 @@
 import React from "react";
 import { mermaidAPI } from "mermaid";
+import FileSaver from "file-saver";
 
 // import debounce from "lodash/fp/debounce";
 // mermaidAPI.initialize({
@@ -62,10 +63,6 @@ class Attina extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.diagram !== this.props.diagram) {
-      // console.log(
-      //   "=============================================================================="
-      // );
-
       getDiagram(this.props.title, nextProps.diagram, ({ diagram, input }) => {
         this.setState({ diagram: { __html: diagram }, input });
       });
@@ -73,30 +70,57 @@ class Attina extends React.Component {
       return false;
     }
     if (nextState.diagram !== this.state.diagram) {
-      // console.log(
-      //   "-------------------------------------------------------------------------------"
-      // );
-      // console.log(nextState.diagram);
       return true;
     }
     return false;
   }
 
   render() {
-    // const { ...props } = this.props;
-    // console.log("IJIJIJIJIJ");
-    // console.log(this.props.diagram);
-    // console.log(this.state.diagram);
     return (
-      <div
-        dangerouslySetInnerHTML={this.state.diagram}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          ...this.props.style
-        }}
-      />
+      <React.Fragment>
+        <button
+          onClick={() => {
+            var blob = new Blob(
+              [
+                document.getElementsByClassName("mermaid-code-to-graph")[0]
+                  .innerHTML
+              ],
+              {
+                type: "image/svg+xml;charset=utf-8"
+              }
+            );
+            FileSaver.saveAs(blob, "graph.svg");
+          }}
+          style={{
+            color: "white",
+            // fontSize: "1.2em",
+            borderRadius: "0",
+            border: "none",
+            outline: "none",
+            backgroundColor: "#FF44FF",
+            flexBasis: "30px",
+            flexShrink: 0,
+            flexGrow: 1,
+            width: "100%",
+            minHeight: "30px",
+            zIndex: 1
+          }}
+        >
+          {this.state.status !== "loading"
+            ? "Download SVG File"
+            : "Download SVG File!"}
+        </button>
+        <div
+          dangerouslySetInnerHTML={this.state.diagram}
+          className={"mermaid-code-to-graph"}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            ...this.props.style
+          }}
+        />
+      </React.Fragment>
     );
   }
 }

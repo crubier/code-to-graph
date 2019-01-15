@@ -8,6 +8,7 @@ import copy from "copy-to-clipboard";
 
 import brace from "brace";
 import AceEditor from "react-ace";
+import Dropzone from "react-dropzone";
 
 import "brace/mode/javascript";
 import "brace/snippets/javascript";
@@ -60,6 +61,22 @@ class App extends Component {
     this.handleSubmit = debounce(200, this.handleSubmitDirect).bind(this);
   }
 
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    // console.log("drop", acceptedFiles, rejectedFiles);
+
+    acceptedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileAsBinaryString = reader.result;
+        this.handleChange(fileAsBinaryString);
+      };
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+
+      reader.readAsBinaryString(file);
+    });
+  };
+
   handleChange(newValue) {
     const base64Result = Base64.encodeURI(newValue);
     this.props.history.push(`./?code=${base64Result}`);
@@ -103,186 +120,238 @@ class App extends Component {
   render() {
     const { code } = getCodeFromLocation({ location: this.props.location });
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          height: "100vh",
-          alignItems: "stretch",
-          flexWrap: "wrap"
-        }}
-      >
-        <div
-          style={{
-            flexBasis: "50%",
-            flexShrink: 1,
-            flexGrow: 1,
-            height: "100%"
-          }}
-        >
-          <AceEditor
-            mode="javascript"
-            theme="monokai"
-            onChange={this.handleChange}
-            name="code-ace-editor"
-            editorProps={{ $blockScrolling: true }}
-            value={code}
-            style={{
-              flexBasis: "50%",
-              flexShrink: 1,
-              flexGrow: 1,
-              width: "100%",
-              height: "100%"
-            }}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2
-            }}
-          />
-        </div>
-
-        <button
-          onClick={this.handleSubmitDirect}
-          style={{
-            position: "relative",
-            fontWeight: 600,
-            outline: "none",
-            color: "white",
-            fontSize: "1.2em",
-            borderRadius: "100%",
-            border: "none",
-            backgroundColor: "#FF44FF",
-            width: 60,
-            height: 60,
-            marginLeft: -30,
-            marginRight: -30,
-            alignSelf: "center",
-            zIndex: 9999
-          }}
-        >
-          {this.state.status !== "loading" ? "Go" : "Wait"}
-        </button>
-        {this.state.error === null || this.state.error === undefined ? (
-          <div
-            style={{
-              flexBasis: "50%",
-              flexShrink: 1,
-              flexGrow: 0,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
-            <Attina
-              diagram={this.state.source}
-              style={{ flexBasis: "80%", flexShrink: 1, flexGrow: 1 }}
-            />
-            <button
-              onClick={() => {
-                // Copy with options
-                copy(this.state.source, {
-                  debug: true,
-                  message: "Press #{key} to copy"
-                });
-                this.setState({ status: "copied" });
-              }}
+      <Dropzone onDrop={this.onDrop}>
+        {({ getRootProps, getInputProps, isDragActive }) => {
+          return (
+            <div
+              {...getRootProps()}
+              onClick={undefined}
               style={{
-                color: "white",
-                // fontSize: "1.2em",
-                borderRadius: "0",
-                border: "none",
-                outline: "none",
-                backgroundColor: "#FF44FF",
-                flexBasis: "30px",
-                flexShrink: 0,
-                flexGrow: 1,
-                width: "100%",
-                minHeight: "30px"
+                display: "flex",
+                flexDirection: "row",
+                height: "100vh",
+                alignItems: "stretch",
+
+                flexWrap: "wrap"
               }}
             >
-              {this.state.status !== "copied"
-                ? "Copy graph code to clipboard"
-                : "Copied!"}
-            </button>
-            <AceEditor
-              // mode="javascript"
-              theme="github"
-              readOnly={true}
-              name="result-ace-editor"
-              editorProps={{ $blockScrolling: true }}
-              // onLoad={this.onLoad}
-              // onSelectionChange={this.onSelectionChange}
-              // onCursorChange={this.onCursorChange}
-              // onValidate={this.onValidate}
-              value={this.state.source}
-              // fontSize={this.state.fontSize}
-              // showPrintMargin={this.state.showPrintMargin}
-              // showGutter={this.state.showGutter}
-              // highlightActiveLine={this.state.highlightActiveLine}
-              style={{
-                flexBasis: "20%",
-                flexShrink: 0,
-                flexGrow: 0,
-                width: "100%",
-                height: "20%"
-              }}
-              setOptions={{
-                enableBasicAutocompletion: false,
-                enableLiveAutocompletion: false,
-                enableSnippets: false,
-                showLineNumbers: false,
-                tabSize: 2
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              flexBasis: "50%",
-              flexShrink: 0,
-              flexGrow: 0,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
-            <AceEditor
-              // mode="javascript"
-              theme="github"
-              readOnly={true}
-              name="error-ace-editor"
-              editorProps={{ $blockScrolling: true }}
-              // onLoad={this.onLoad}
-              // onSelectionChange={this.onSelectionChange}
-              // onCursorChange={this.onCursorChange}
-              // onValidate={this.onValidate}
-              value={this.state.error.message}
-              // fontSize={this.state.fontSize}
-              // showPrintMargin={this.state.showPrintMargin}
-              // showGutter={this.state.showGutter}
-              // highlightActiveLine={this.state.highlightActiveLine}
-              style={{
-                flexBasis: "100%",
-                flexShrink: 0,
-                flexGrow: 0,
-                width: "100%",
-                height: "100%",
-                color: "red"
-              }}
-              setOptions={{
-                enableBasicAutocompletion: false,
-                enableLiveAutocompletion: false,
-                enableSnippets: false,
-                showLineNumbers: false,
-                tabSize: 2
-              }}
-            />
-          </div>
-        )}
-      </div>
+              {isDragActive ? (
+                <div
+                  style={{
+                    position: "absolute",
+                    color: "white",
+                    fontSize: "2em",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    backgroundColor: "rgba(0,0,0,0.8)",
+                    zIndex: 99999
+                  }}
+                >
+                  Drop file anywhere
+                </div>
+              ) : null}
+              <div
+                style={{
+                  flexBasis: "50%",
+                  flexShrink: 1,
+                  flexGrow: 1,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "stretch",
+                  justifyContent: "stretch"
+                }}
+              >
+                <AceEditor
+                  mode="javascript"
+                  theme="monokai"
+                  onChange={this.handleChange}
+                  name="code-ace-editor"
+                  editorProps={{ $blockScrolling: true }}
+                  value={code}
+                  style={{
+                    flexBasis: "100vh",
+                    flexShrink: 1,
+                    flexGrow: 1,
+                    width: "100%"
+                    // height: "100%"
+                  }}
+                  setOptions={{
+                    enableBasicAutocompletion: true,
+                    enableLiveAutocompletion: true,
+                    enableSnippets: true,
+                    showLineNumbers: true,
+                    tabSize: 2
+                  }}
+                />
+                <input
+                  {...getInputProps()}
+                  style={{
+                    color: "white",
+                    // fontSize: "1.2em",
+                    borderRadius: "0",
+                    border: "none",
+                    outline: "none",
+                    backgroundColor: "#FF44FF",
+                    flexBasis: "30px",
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexGrow: 1,
+                    width: "100%",
+                    minHeight: "30px"
+                  }}
+                />
+              </div>
+
+              <button
+                onClick={this.handleSubmitDirect}
+                style={{
+                  position: "relative",
+                  fontWeight: 600,
+                  outline: "none",
+                  color: "white",
+                  fontSize: "1.2em",
+                  borderRadius: "100%",
+                  border: "none",
+                  backgroundColor: "#FF44FF",
+                  width: 60,
+                  height: 60,
+                  marginLeft: -30,
+                  marginRight: -30,
+                  alignSelf: "center",
+                  zIndex: 9999
+                }}
+              >
+                {this.state.status !== "loading" ? "Go" : "Wait"}
+              </button>
+              {this.state.error === null || this.state.error === undefined ? (
+                <div
+                  style={{
+                    flexBasis: "50%",
+                    flexShrink: 1,
+                    flexGrow: 0,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <Attina
+                    diagram={this.state.source}
+                    style={{ flexBasis: "80%", flexShrink: 1, flexGrow: 1 }}
+                  />
+                  <button
+                    onClick={() => {
+                      // Copy with options
+                      copy(this.state.source, {
+                        debug: true,
+                        message: "Press #{key} to copy"
+                      });
+                      this.setState({ status: "copied" });
+                    }}
+                    style={{
+                      color: "white",
+                      // fontSize: "1.2em",
+                      borderRadius: "0",
+                      border: "none",
+                      outline: "none",
+                      backgroundColor: "#FF44FF",
+                      flexBasis: "30px",
+                      flexShrink: 0,
+                      flexGrow: 1,
+                      width: "100%",
+                      minHeight: "30px"
+                    }}
+                  >
+                    {this.state.status !== "copied"
+                      ? "Copy graph code to clipboard"
+                      : "Copied!"}
+                  </button>
+                  <AceEditor
+                    // mode="javascript"
+                    theme="github"
+                    readOnly={true}
+                    name="result-ace-editor"
+                    editorProps={{ $blockScrolling: true }}
+                    // onLoad={this.onLoad}
+                    // onSelectionChange={this.onSelectionChange}
+                    // onCursorChange={this.onCursorChange}
+                    // onValidate={this.onValidate}
+                    value={this.state.source}
+                    // fontSize={this.state.fontSize}
+                    // showPrintMargin={this.state.showPrintMargin}
+                    // showGutter={this.state.showGutter}
+                    // highlightActiveLine={this.state.highlightActiveLine}
+                    style={{
+                      flexBasis: "20%",
+                      flexShrink: 0,
+                      flexGrow: 0,
+                      width: "100%",
+                      height: "20%"
+                    }}
+                    setOptions={{
+                      enableBasicAutocompletion: false,
+                      enableLiveAutocompletion: false,
+                      enableSnippets: false,
+                      showLineNumbers: false,
+                      tabSize: 2
+                    }}
+                  />
+                </div>
+              ) : (
+                <div
+                  style={{
+                    flexBasis: "50%",
+                    flexShrink: 0,
+                    flexGrow: 0,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <AceEditor
+                    // mode="javascript"
+                    theme="github"
+                    readOnly={true}
+                    name="error-ace-editor"
+                    editorProps={{ $blockScrolling: true }}
+                    // onLoad={this.onLoad}
+                    // onSelectionChange={this.onSelectionChange}
+                    // onCursorChange={this.onCursorChange}
+                    // onValidate={this.onValidate}
+                    value={this.state.error.message}
+                    // fontSize={this.state.fontSize}
+                    // showPrintMargin={this.state.showPrintMargin}
+                    // showGutter={this.state.showGutter}
+                    // highlightActiveLine={this.state.highlightActiveLine}
+                    style={{
+                      flexBasis: "100%",
+                      flexShrink: 0,
+                      flexGrow: 0,
+                      width: "100%",
+                      height: "100%",
+                      color: "red"
+                    }}
+                    setOptions={{
+                      enableBasicAutocompletion: false,
+                      enableLiveAutocompletion: false,
+                      enableSnippets: false,
+                      showLineNumbers: false,
+                      tabSize: 2
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        }}
+      </Dropzone>
     );
   }
 }
