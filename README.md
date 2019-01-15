@@ -2,6 +2,12 @@
 
 Transforms code (JS) into graphs (graphviz, mermaid flowchart, ...)
 
+## Interactive Demo
+
+https://crubier.github.io/code-to-graph/
+
+## Explanation
+
 Turns this:
 
 ```javascript
@@ -40,7 +46,7 @@ Whichs renders into this:
 
 ![Example mermaid diagram](./mermaid-diagram-example.svg)
 
-# Usage
+## Usage
 
 Call the cli with a js file name, it prints out the Mermaid.js graph definition
 
