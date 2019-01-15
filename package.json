@@ -1,6 +1,6 @@
 {
   "name": "code-to-graph",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "main": "index.js",
   "repository": "https://github.com/crubier/code-to-graph.git",
   "author": "Vincent Lecrubier <vincent.lecrubier@sterblue.com>",
@@ -15,6 +15,7 @@
     "@babel/generator": "^7.2.2",
     "@babel/parser": "^7.2.3",
     "lodash": "^4.17.11",
+    "mermaid": "^8.0.0",
     "opn": "^5.4.0"
   },
   "devDependencies": {
