@@ -2341,10 +2341,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-code-to-graph@1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/code-to-graph/-/code-to-graph-1.0.14.tgz#4595e6c6e110cf73932a7aa0097c101e87228eaa"
-  integrity sha512-QkfOyeHy9RFvWM6YWr1UmiZH/TEK54X8VkPU1X9G83BbeATFK+sVvRNHUFQlAj6uDBFGcqsLGGD29dSi4KIlhA==
+code-to-graph@1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/code-to-graph/-/code-to-graph-1.0.15.tgz#8094813b6f0477cfe134bb23517fc184ad3e3182"
+  integrity sha512-s/+tNFlZDREyJ0r0FzNFiyvlTuRL+MFs5GrAI9vsf4Kka8XSJceFJdeSjKHqR+jATJZjG/mFq4ZhX4+fCHtroA==
   dependencies:
     "@babel/generator" "^7.2.2"
     "@babel/parser" "^7.2.3"

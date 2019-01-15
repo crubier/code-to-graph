@@ -1,12 +1,13 @@
 {
   "name": "code-to-graph",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "index.js",
   "repository": "https://github.com/crubier/code-to-graph.git",
   "author": "Vincent Lecrubier <vincent.lecrubier@sterblue.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "postpublish": "cd docs-source && yarn install && yarn docs"
   },
   "bin": {
     "code-to-graph": "./cli.js"
