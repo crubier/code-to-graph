@@ -9,15 +9,15 @@ function makeIdFromAstNode(astNode) {
 
 function transformGeneralAstToGraph(ast) {
   if (fp.isArray(ast)) {
-    return tramsformStatementSequenceToGraph(ast);
+    return transformStatementSequenceToGraph(ast);
   } else if (fp.isObject(ast)) {
-    return tramsformStatementToGraph(ast);
+    return transformStatementToGraph(ast);
   } else {
-    throw new Error(`Ast of type ${typeof ast} is not supported`);
+    return transformStatementToGraph(ast);
   }
 }
 
-function tramsformStatementSequenceToGraph(statements) {
+function transformStatementSequenceToGraph(statements) {
   return fp.reduce(
     (
       { nodes, edges, entryNodes, exitNodes, breakNodes, subGraphs },
@@ -68,7 +68,7 @@ function tramsformStatementSequenceToGraph(statements) {
   );
 }
 
-function tramsformStatementToGraph(statement) {
+function transformStatementToGraph(statement) {
   switch (statement.type) {
     case "File": {
       return transformGeneralAstToGraph(statement.program);
