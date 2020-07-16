@@ -15,7 +15,7 @@
   "dependencies": {
     "@babel/generator": "^7.2.2",
     "@babel/parser": "^7.2.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mermaid": "^8.0.0",
     "opn": "^5.4.0"
   },
