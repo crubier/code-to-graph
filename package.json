@@ -20,6 +20,6 @@
     "opn": "^5.4.0"
   },
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^29.3.1"
   }
 }
